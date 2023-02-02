@@ -3,6 +3,8 @@ import lock from "../../../assets/icons/lock.svg";
 import user from "../../../assets/icons/user.svg";
 import Button from "../../Button/Button";
 
+import './patientLogin.scss';
+
 import {useState} from 'react';
 
 
