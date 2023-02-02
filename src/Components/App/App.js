@@ -1,10 +1,10 @@
 import './app.scss';
-
+import PatientLogin from '../Login/PatientLogin/PatientLogin';
 const App = () => {
 
 	return (
 		<div className="app">
-			<h1>Hello World</h1>
+			<PatientLogin/>
 		</div>
 	)
 }
