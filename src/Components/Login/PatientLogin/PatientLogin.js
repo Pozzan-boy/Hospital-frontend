@@ -1,12 +1,13 @@
+import {useState} from 'react';
+
 import Logo from "../../Logo/Logo";
 import lock from "../../../assets/icons/lock.svg";
 import user from "../../../assets/icons/user.svg";
 import Button from "../../Button/Button";
 
+import '../loginForm.scss';
 import './patientLogin.scss';
-
-import {useState} from 'react';
-
+import { Link } from 'react-router-dom';
 
 const PatientLogin =() =>{
     const [login, setLogin] = useState('');
@@ -28,10 +29,11 @@ const PatientLogin =() =>{
                 <input value={password} onChange={(e)=> setPassword(e.target.value)} type="password" className="log-form__input patient-log__input" placeholder="userpassword"/>
             </div>
             <Button>Login</Button>
-            <a className="patient-log__link" href="#">I’m a doctor</a>
-            <p className="patient-log__noAcc">Dont have  an account?<a className="patient-log__link" href="#">Sign Up</a></p>
+            <Link className="log-form__link patient-log__link" to="/login/doctor">I’m a doctor</Link>
+            <p className="log-form__subinf patient-log__noAcc">Dont have  an account?<Link className="log-form__link patient-log__link" to='/register/patient'>Sign Up</Link></p>
 
         </form>
     )
 }
+
 export default PatientLogin;
