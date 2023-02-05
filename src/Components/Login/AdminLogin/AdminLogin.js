@@ -1,5 +1,9 @@
 import { useState } from "react";
 
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+
+import { accountFetching, accountFetched, accountFetchingError } from "../loginSlice";
 import Logo from "../../Logo/Logo";
 import Button from "../../Button/Button";
 import user from '../../../assets/icons/user.svg';
@@ -7,11 +11,29 @@ import lock from '../../../assets/icons/lock.svg';
 
 const AdminLogin = () => {
 
+    const account = useSelector(state => state);
+    const dispatch = useDispatch();
+
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+        dispatch(accountFetching);
+        axios.post('/auth/login', {
+            login,
+            password,
+            role: 'admin'
+        })
+        .then(data => {
+            console.log(data.data);
+            dispatch(accountFetched(data.data));
+        })
+        .catch(() => dispatch(accountFetchingError()));
+    }
+
     return(
-        <form className="log-form">
+        <form onSubmit={onSubmit} className="log-form">
             <Logo color="#05A715" />
             <h3 className="log-form__title">Login</h3>
             <h4 className="log-form__subtitle">To continue as admin</h4>
