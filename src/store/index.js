@@ -1,19 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
 
-
-
-const stringMiddleware = () => (next) => (action) => {
-    if (typeof action === 'string') {
-        return next({
-            type: action
-        })
-    }
-    return next(action)
-};
+import account from "../components/Login/loginSlice";
 
 const store = configureStore({
-    reducer: {},
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(stringMiddleware),
+    reducer: {account},
+    middleware: getDefaultMiddleware => getDefaultMiddleware(),
     devTools: process.env.NODE_ENV !== 'production',
 })
 
