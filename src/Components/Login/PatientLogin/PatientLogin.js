@@ -6,7 +6,7 @@ import user from "../../../assets/icons/user.svg";
 import Button from "../../Button/Button";
 
 import '../loginForm.scss';
-import './patientLogin.scss';
+
 import { Link } from 'react-router-dom';
 
 const PatientLogin =() =>{
