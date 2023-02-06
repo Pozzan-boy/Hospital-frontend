@@ -8,18 +8,21 @@ import Logo from "../../Logo/Logo";
 import Button from "../../Button/Button";
 import user from '../../../assets/icons/user.svg';
 import lock from '../../../assets/icons/lock.svg';
+import { useNavigate } from "react-router";
 
 const AdminLogin = () => {
 
     const account = useSelector(state => state);
     const dispatch = useDispatch();
 
+    const navigate = useNavigate();
+
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
 
     const onSubmit = (e) => {
         e.preventDefault();
-        dispatch(accountFetching);
+        dispatch(accountFetching());
         axios.post('/auth/login', {
             login,
             password,
@@ -28,6 +31,7 @@ const AdminLogin = () => {
         .then(data => {
             console.log(data.data);
             dispatch(accountFetched(data.data));
+            navigate('/');
         })
         .catch(() => dispatch(accountFetchingError()));
     }
