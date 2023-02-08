@@ -28,9 +28,9 @@ const AdminLogin = () => {
             password,
             role: 'admin'
         })
-        .then(data => {
-            console.log(data.data);
-            dispatch(accountFetched(data.data));
+        .then(res => {
+            dispatch(accountFetched(res.data));
+            localStorage.setItem('token', res.data.token);
             navigate('/');
         })
         .catch(() => dispatch(accountFetchingError()));

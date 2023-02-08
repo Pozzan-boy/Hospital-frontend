@@ -8,7 +8,6 @@ const Root = () => {
     const role = useSelector(state => state.account.role);
     
     const render = () => {
-        console.log(role);
         switch(role) {
             case 'admin':
                 return <AdminPanel/>
