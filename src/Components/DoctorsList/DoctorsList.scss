@@ -1,0 +1,39 @@
+.doctorsList__wrapper{
+    width: 1400px;
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 18px;
+    
+}
+.doctorsList__headers{
+    width: 100%;    
+    display: flex;
+    align-items:center;
+    margin-left: 70px;
+    &__info{
+        width: 220px;
+        color: var(--main-text-color);
+        margin-left: 31px;
+    }
+    &__phone{
+        width: 160px;
+        color: var(--main-text-color);
+        margin-left: 54px;
+    }
+    &__speciality{
+        width: 160px;
+        color: var(--main-text-color);
+        margin-left: 130px;
+    }
+    &__entry-date{
+        width: 140px;
+        color: var(--main-text-color);
+        margin-left: 120px;
+    }
+    &__salary{
+        width: 70px;
+        color: var(--main-text-color);
+        margin-left: 140px;
+    }
+}

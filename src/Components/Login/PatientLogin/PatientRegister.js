@@ -35,7 +35,10 @@ const PatientRegister = () => {
                 <img className="log-form__input-img" src={lock} alt="password" />
                 <input value={password} onChange={(e)=> setPassword(e.target.value)} type="password" className="log-form__input patient-log__input" placeholder="yourpassword"/>
             </div>
-            <Checkbox onCheck={setCheckStatus} />
+            <div className="log-form__terms">
+                <Checkbox onCheck={setCheckStatus} />
+                I agree to the <Link className="log-form__terms-link" to="#">Terms & Conditions</Link>
+            </div>
             <Button>Sign Up</Button>
             <p className="log-form__subinf">Already have an account?<Link className="log-form__link patient-log__link" to='/login/patient'>Login</Link></p>
         </form>

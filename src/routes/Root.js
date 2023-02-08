@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import AdminPanel from "../components/AdminPanel/AdminPanel";
 import NotLoginRoute from "./Auth/NotLoginRoute";
 
 
@@ -10,7 +11,7 @@ const Root = () => {
         console.log(role);
         switch(role) {
             case 'admin':
-                return <h1>admin page</h1>
+                return <AdminPanel/>
             case 'doctor':
                 return <h1>doctor page</h1>
             default:

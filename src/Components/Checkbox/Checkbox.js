@@ -1,20 +1,25 @@
-import { Link } from "react-router-dom"
-
 import './checkbox.scss';
 
-const Checkbox = ({onCheck}) => {
-
+const Checkbox = ({onCheck, variant="round"}) => {
+    let checkBoxClass, checkBoxClassActive;
+    if(variant==='round'){
+        checkBoxClass = 'checkbox__circle';
+        checkBoxClassActive = 'checkbox__circle-active';
+       
+    } else{
+        checkBoxClass = 'checkbox__square';
+        checkBoxClassActive = 'checkbox__square-active';
+    }
 
     return (
-        <div className="checkbox">
-            <div className='checkbox__circle' onClick={(e) => {
-                e.target.classList.toggle('checkbox__circle-active');
+        <div className="checkbox doctorItem__check">
+            <div className={checkBoxClass} onClick={(e) => {
+                e.target.classList.toggle(checkBoxClassActive);
                 onCheck(({check}) => !check);
             }
         }>
 
             </div>
-            I agree to the <Link className="checkbox__link" to="#">Terms & Conditions</Link>
         </div>
     )
 }

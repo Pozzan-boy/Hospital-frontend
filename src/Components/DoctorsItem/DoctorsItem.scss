@@ -1,0 +1,90 @@
+.doctorItem{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    // justify-content: space-between;
+    background-color: #fff;
+    border-radius: 12px;
+
+    &:hover{
+        cursor:pointer;
+        
+    }
+    &__check{
+        margin-left: 37px;
+    }
+    &__personal{
+        width: 220px;
+        margin-left: 31px;
+        &__name{
+            color: #000;
+            font-weight: 700;
+        }
+        &__email{
+            color:var(--main-text-color);
+        }
+    }
+    &__phone{
+        width: 160px;
+        margin-left: 54px;
+    }
+    &__speciality{
+        width: 160px;
+        margin-left: 130px;
+    }
+    &__entry-date{
+        width: 140px;
+        margin-left: 120px;
+    }
+    &__salary{
+        width: 70px;
+        margin-left: 140px;
+    }
+    &__change{
+        margin-left: 30px;
+        position: relative;
+        display: inline-block;
+        &:hover{
+            cursor: pointer;
+        }
+        &:hover .dropdown-content{
+            display: flex;
+        }
+        &__item{
+            display: flex;
+            width: 100%;
+            align-items: center;
+            padding: 0 15px;
+            height: 50%;
+            &:hover{
+                background-color: #eeeeee;
+            }
+            span{
+                margin-left: 15px;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 24px;
+                color: #8B9399;
+            }
+        }
+    }
+
+    
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    background-color: #fff;
+    width: 200px;
+    height: 115px;
+    top: 20px;
+    right: 30px;
+    box-shadow: -7px 10px 19px 5px rgba(0, 0, 0, 0.25);
+    z-index: 1;
+    
+  }
+

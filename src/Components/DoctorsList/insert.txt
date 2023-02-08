@@ -1,0 +1,73 @@
+db.doctors.insertMany({
+    name: "Raphael",
+    surname: "Foster",
+    age: 26,
+    speciality: "surgeon",
+    entryDate: new Date("2020-01-15T11:25"),
+    salary: 15000,
+    email: "lori4u@buzzcol.com",
+    phone: "+380 39 331 7572"
+},
+{
+    name: "Kolby",
+    surname: "Miller",
+    age: 50,
+    speciality: "cardiologist",
+    entryDate: new Date("2008-02-25T11:25"),
+    salary: 25000,
+    email: "bitpull@maill.dev",
+    phone: "+380 97 756 6437"
+},
+{
+    name: "Chandler",
+    surname: "Stewart",
+    age: 49,
+    speciality: "cardiologist",
+    entryDate: new Date("2010-03-09T11:25"),
+    salary: 23000,
+    email: "tdf11975@pickuplanet.com",
+    phone: "+380 39 809 5628"
+},
+{
+    name: "Gabriela",
+    surname: "Wilson",
+    age: 32,
+    speciality: "otolaryngologist",
+    entryDate: new Date("2020-01-15T11:25"),
+    salary: 17000,
+    email: "msalvo@picsviral.net",
+    phone: "+380 39 150 8278"
+},
+{
+    name: "Braxton",
+    surname: "Brooks",
+    age: 35,
+    speciality: "Anesthesiologist",
+    entryDate: new Date("2020-01-15T11:25"),
+    salary: 21000,
+    email: "jmm1371@muchami.ga",
+    phone: "+380 39 188 4093"
+},
+{
+    name: "Maria",
+    surname: "Cooper",
+    age: 38,
+    speciality: "Endocrinologist",
+    entryDate: new Date("2020-01-15T11:25"),
+    salary: 17000,
+    email: "amesss@programfact.us",
+    phone: "+380 39 941 1845"
+},
+{
+    name: "Rick",
+    surname: "Grimes",
+    age: 29,
+    speciality: "Dermatologist",
+    entryDate: new Date("2020-01-15T11:25"),
+    salary: 16000,
+    email: "dimanovichdiman@emvil.com",
+    phone: "+380 99 810 5242"
+}
+
+
+)
