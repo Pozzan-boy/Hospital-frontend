@@ -1,10 +1,12 @@
 import DoctorsList from "../DoctorsList/DoctorsList";
+import Filters from "../Filters/Filters";
 import './adminPanel.scss'
 import Logo from "../Logo/Logo";
 const AdminPanel = ()=>{
     return(
         <>
             <Logo color='#05A715' variant='horizontal' width="82px" height="69px" />
+            <Filters/>
             <DoctorsList/>
             <div className="admin-panel__side-bar">
                 <div className="admin-panel__info">

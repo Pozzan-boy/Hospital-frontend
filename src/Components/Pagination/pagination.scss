@@ -28,19 +28,19 @@
   
   .paginationBttns a:hover {
     
-    color: #5876C5;
+    color: var(--secondary-color);
   }
   
   .paginationActive a {
     
-    color: #5876C5;
+    color: var(--secondary-color);
     &::after{
       content: '';
       display: block;
       position: absolute;
       width: 31px;
       height: 2px;
-      background-color: #5876C5;
+      background-color: var(--secondary-color);
       bottom: 0;
     }
   }

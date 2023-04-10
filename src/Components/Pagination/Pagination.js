@@ -7,15 +7,20 @@ import  './pagination.scss';
 
 
 export const Pagination = ({ currentPage, onChangePage, pageCount}) => (
-    
+  
+
   <ReactPaginate
-    breakLabel="..."
     nextLabel=">"
     previousLabel="<"
-    onPageChange={(event) => onChangePage(event.selected + 1)}
-    pageRangeDisplayed={4}
-    pageCount={pageCount}
+
     forcePage={currentPage - 1}
+    breakLabel="..."
+
+    onPageChange={onChangePage}
+    pageRangeDisplayed={5}
+    pageCount={pageCount}
+  
+    renderOnZeroPageCount={null}
     containerClassName={"paginationBttns"}
     previousLinkClassName={"previousBttn"}
     nextLinkClassName={"nextBttn"}

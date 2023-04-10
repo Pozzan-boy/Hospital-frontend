@@ -1,11 +1,11 @@
 import { Navigate, useSearchParams } from "react-router-dom";
-import { useEffect } from 'react';
+import { useEffect, useState, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import  "./DoctorsList.scss";
 import DoctorsItem from "../DoctorsItem/DoctorsItem";
 import { useNavigate } from "react-router-dom";
-import  Pagination from '../Pagination/Pagination';
-import { fetchDoctors, setCurrentPage, setDoctors} from './DoctorsListSlice';
+import  {Pagination} from '../Pagination/Pagination';
+import { fetchDoctors, setCurrentPage, getDoctorsCount} from './DoctorsListSlice';
 import ClipLoader from "react-spinners/ClipLoader";
 
 
@@ -13,30 +13,48 @@ import ClipLoader from "react-spinners/ClipLoader";
 const DoctorsList = ()=> {
 
 
-    const {doctors, doctorsLoadingStatus, currentPage} = useSelector(state => state.doctors);
+    const {doctors, doctorsLoadingStatus, currentPage, doctorsCount} = useSelector(state => state.doctors);
     const dispatch = useDispatch();
     const token = useSelector((state) => state.account.token);
-    const doctorsPerPage = 8;
-    const pageCount = Object.values(doctors).length / doctorsPerPage;
-    const currentEnd = currentPage * doctorsPerPage;
-    const currentStart = (currentPage - 1) * doctorsPerPage ; 
+    const searchedDoctors = useSelector((state) => state.doctors.searchedDoctors);
+    const doctorsPerPage = 5;
+    let pageCount = Math.ceil(doctorsCount/ doctorsPerPage);
+    const [itemOffset, setItemOffset] = useState(0);
 
-    
-    
 
     useEffect(() => {
-        console.log('asdasda');
-        dispatch(fetchDoctors(token));
+        dispatch(fetchDoctors([token, doctorsPerPage, itemOffset]));
 
         
-    }, [currentPage]);
-    const onChangePage = (page) => {
-        dispatch(setCurrentPage(page));
-    };
-    
+    }, [currentPage, doctorsCount]);
+
+    useEffect(() => {
+        
+
+        
+    }, [doctors.doctors]);
+
+     useEffect(() => {
+        dispatch(getDoctorsCount(token));
+
+        
+    }, []);
+    // useLayoutEffect(()=>{
+    //     dispatch(fetchDoctors([token, doctorsPerPage, itemOffset]));
+    // },[doctorsCount])
+
+    const handlePageClick = (event) => {
+        dispatch(setCurrentPage(event.selected+1));
+        const newOffset = (event.selected * doctorsPerPage) % doctorsCount;
+        setItemOffset(newOffset);
+        dispatch(fetchDoctors([token, doctorsPerPage, newOffset]));
+        renderDoctorsList(Object.values(doctors));
+        
+      };
 
 
     if (doctorsLoadingStatus === "loading") {
+        return <h5 className="text-center mt-5">Loading</h5>
         
     } else if (doctorsLoadingStatus === "error") {
         return <h5 className="text-center mt-5">Loading error</h5>
@@ -48,17 +66,22 @@ const DoctorsList = ()=> {
             )
         }
 
-        return arr.slice(currentStart, currentEnd)    
+        return arr.filter(doctor => doctor.name
+            .toLowerCase().includes(searchedDoctors.toLowerCase()))   
             .map(({id, ...props}) => 
                 (
                         
                         <DoctorsItem 
                             id={id}
+                            
                             {...props} />
                 )
                 
                 
             )
+        
+
+                
     }
     const elements = renderDoctorsList(Object.values(doctors));
 
@@ -77,6 +100,7 @@ const DoctorsList = ()=> {
                         <div className="doctorsList__headers__salary">Salary</div>
                     </div>
                     {elements}
+                    <Pagination  pageCount={pageCount} currentPage={currentPage} onChangePage={handlePageClick}/>
                 </div>
                 
         

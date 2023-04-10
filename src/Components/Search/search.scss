@@ -1,0 +1,27 @@
+.search-bar{
+    position: relative;
+    width: 453px;
+    height: 43px;
+    
+    input{
+        width: 100%;
+        height: 100%;
+        border-radius: 12px;
+        border: 1px solid #8B9399;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 24px;
+        color: var(--main-text-color);
+        padding-left: 66px;
+        background-color: var(--main-color);
+    }
+    button{
+        position: absolute;
+        text-decoration: none;
+        outline: none;
+        top: 7px;
+        left: 16px;
+        border: none;
+        background-color: var(--main-color);
+    }
+}

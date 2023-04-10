@@ -1,39 +1,52 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux'
 import axios from "axios";
-const baseUrl = "/doctor/getAllDoctors";
+const baseUrl = "http://localhost:3001/doctor/getAllDoctors";
+
 const initialState = {
     doctors: {},
     currentPage: 1,
     doctorsLoadingStatus: 'idle',
-    doctor: {}
+    searchedDoctors: "",
+    doctorsCount:0,
+    doctorsCountStatus: 'idle',
+    doctor: {},
     
 }
 
-// const convertArrayToObject = (array, key) => {
-//     const initialValue = {};
-//     return array.reduce((obj, item) => {
-//       return {
-//         ...obj,
-//         [item[key]]: item,
-//       };
-//     }, initialValue);
-// };
+
 export const fetchDoctors = createAsyncThunk(
     'doctors/fetchdoctors',
-    async (token) => {
+    async ([token, count, start]) =>{
         
         const response = await axios.get(baseUrl, {
             headers: {
-                'authorization': token
+                'authorization': token,
+                'count':  count,
+                'from':  start
+                
+
             }
         });
-        console.log(response.data);
+        // console.log(response.data);
         return response.data;
         
     }  
 );
-
+export const getDoctorsCount = createAsyncThunk(
+    'doctors/getDoctorsCount',
+    async (token) =>{
+        
+        const response = await axios.get(baseUrl, {
+            headers: {
+                'authorization': token,
+            }
+        });
+        // console.log(response.data);
+        return response.data;
+        
+    }  
+);
 const doctorsSlice = createSlice({
     name: 'doctors',
     initialState,
@@ -43,7 +56,11 @@ const doctorsSlice = createSlice({
         },
         setDoctor(state, action){
             state.doctor = action.payload;
-        }
+        },
+        handleSearchDoctors(state, action){
+            state.searchedDoctors = action.payload;
+        },
+        
     },
     extraReducers: (builder) =>{
         builder
@@ -56,17 +73,28 @@ const doctorsSlice = createSlice({
                 state.doctorsLoadingStatus = 'error';
                 console.log('error');
             })
+            .addCase(getDoctorsCount.pending, state => {state.doctorsCountStatus = 'loading'})
+            .addCase(getDoctorsCount.fulfilled, (state, action) =>{
+                state.doctorsCountStatus = 'idle';
+                console.log('22');
+                state.doctorsCount = action.payload.length; 
+            })
+            .addCase(getDoctorsCount.rejected, state => {
+                state.doctorsCountStatus = 'error';
+                console.log('error');
+            })
             .addDefaultCase(() => {})
     }
 })
 const {actions, reducer} = doctorsSlice;
 export default reducer;
 export const {
-    doctorsFetching,
-    doctorsFetched,
-    doctorsFetchingError,
+    PageIncrement,
+    PageDecrement,
     setCurrentPage,
-    setDoctors
+    setDoctor,
+    handleSearchDoctors,
+    searchByName
 } = actions
 
 
