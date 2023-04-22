@@ -123,7 +123,7 @@ const DoctorsList = ()=> {
                         <div className="doctorsList__headers__salary">Salary</div>
                     </div>
                     {elements}
-                    <Pagination  pageCount={pageCount} currentPage={currentPage} onChangePage={handlePageClick}/>
+                    <Pagination  pageCount={pageCount} currentPage={currentPage} onChangePage={handlePageClick} itemsPerPage={doctorsPerPage} totalItemsCount={doctorsCount}/>
                     <Modal active={modalMessageActive} setActive={setModalMessageActive} modalClass={"modal__status"}>
                         <img className="modal__status__img" src={statusIcon} alt="x" />
                         
