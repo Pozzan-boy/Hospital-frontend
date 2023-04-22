@@ -6,7 +6,8 @@ import axios from "axios";
 import Modal from "../Modal/Modal";
 import closeIcon from "../../assets/icons/close.svg";
 import "./filters.scss";
-import { postDoctor } from "../DoctorsItem/doctorsItemSlice";
+import { postDoctor } from "../DoctorsList/DoctorsListSlice";
+
 const Filters  = ()=>{
     const users = useSelector(state=> state.doctors.doctors);
     const token = useSelector(state=> state.account.token);
@@ -27,7 +28,7 @@ const Filters  = ()=>{
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     
-  
+   
     const onSubmit = (e) => {
         e.preventDefault();
         const newDoctor={
@@ -42,7 +43,7 @@ const Filters  = ()=>{
             token
         };
         dispatch(postDoctor(newDoctor));
-
+        
     }
 
     return(
@@ -76,7 +77,7 @@ const Filters  = ()=>{
                         </div>
                         <div className="admin-add__input__wrapper">
                             <div className="admin-add__input__label">Date of entry</div>
-                            <input onChange={(e)=>setEntryDate(e.target.value)} id="admin-add__doctor__entry-date" type="text" className="admin-add__input" />
+                            <input onChange={(e)=>setEntryDate(e.target.value)} id="admin-add__doctor__entry-date" type="date" className="admin-add__input" />
                         </div>
                         <div className="admin-add__input__wrapper">
                             <div className="admin-add__input__label">Salary</div>
@@ -106,6 +107,7 @@ const Filters  = ()=>{
                 </form>
                 
             </Modal>
+            
         </div>
     )
 }

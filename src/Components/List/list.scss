@@ -1,0 +1,16 @@
+.list{
+    width: 1400px;
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 18px;
+    &__headers{
+        width: 100%;    
+        display: flex;
+        align-items:center;
+        margin-left: 70px;
+        &__item{
+            color: var(--main-text-color);
+        }
+    }
+}

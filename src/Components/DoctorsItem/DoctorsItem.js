@@ -1,10 +1,11 @@
 
 import "./DoctorsItem.scss";
-import { useState } from "react";
+import { useEffect,useState,useMemo  } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { updateDoctor, deleteDoctor, registerDoctor} from "./doctorsItemSlice";
+import { updateDoctor, registerDoctor} from "../DoctorsList/DoctorsListSlice";
 import deleteIcon from "../../assets/icons/delete.svg";
+// import { deleteDoctorItem } from "./docSlice";
 import axios from "axios";
 import editIcon from "../../assets/icons/edit.svg";
 import keyIcon from "../../assets/icons/key.svg";
@@ -14,11 +15,15 @@ import more from "../../assets/icons/more.svg";
 import Modal from "../Modal/Modal";
 import closeIcon from "../../assets/icons/close.svg";
 
+import { deleteDoctorItem} from '../DoctorsList/DoctorsListSlice';
+
 const DoctorsItem = (props) => {
     const navigate = useNavigate();
     const [modalActive, setModalActive] = useState(false);
     const [modalRegisterActive, setModalRegisterActive] = useState(false);
-    const doctors = useSelector(state => state.doctors);
+
+    const doctors = useSelector(state => state.doctors.doctors);
+    const status = useSelector(state => state.doctors.status);
     const token = useSelector(state => state.account.token);
     const dispatch = useDispatch();
     const clickHandler = () => {
@@ -26,6 +31,9 @@ const DoctorsItem = (props) => {
     }
     const clickRegisterHandler = () => {
         setModalRegisterActive(true);
+    }
+    const clickModalMessageHandler = () => {
+        props.setModalMessageActive(true);
     }
     const [checkStatus, setCheckStatus] = useState(false);
 
@@ -39,18 +47,52 @@ const DoctorsItem = (props) => {
     const [phone, setPhone] = useState(props.phone);
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
-
-
+    useEffect(() => {
+        setName(props.name);
+        setSurname(props.surname);
+        setAge(props.age);
+        setSpeciality(props.speciality);
+        setEntryDate(props.entryDate);
+        setSalary(props.salary);
+        setEmail(props.email);
+        setPhone(props.phone);
+        
+      }, [props]);
+    
+    // useEffect(() => {
+    //     const [name, setName] = useState(props.name);
+    //     const [surname, setSurname] = useState(props.surname);
+    //     const [age, setAge] = useState(props.age);
+    //     const [speciality, setSpeciality] = useState(props.speciality);
+    //     const [entryDate, setEntryDate] = useState(props.entryDate);
+    //     const [salary, setSalary] = useState(props.salary);
+    //     const [email, setEmail] = useState(props.email);
+    //     const [phone, setPhone] = useState(props.phone);
+        
+    // }, [currentPage, doctorsCount, itemOffset]);
+   console.log(name);
+   console.log(surname);
     const handleDelete = (e) => {
         e.preventDefault();
-        dispatch(deleteDoctor([props._id,token]));
+        dispatch(deleteDoctorItem([props._id,token]));
+        // clickModalMessageHandler();
         
+       
     };
+    useEffect(() => {
+        if(status!=="idle"){
+            clickModalMessageHandler();
+        }
+        
+      }, [status]);
     const handleUpdate = (e) => {
         e.preventDefault();
         const id = props._id;
         const updatedItem = { name, surname, age, speciality, entryDate, salary, email, phone };
         dispatch(updateDoctor([updatedItem, token, id]));
+        // clickModalMessageHandler();
+        console.log(status);
+
     };
     const handleRegister = (e) => {
         e.preventDefault();
@@ -61,12 +103,14 @@ const DoctorsItem = (props) => {
             key: props._id
         };
         dispatch(registerDoctor([item, token]));
+        // clickModalMessageHandler();
 
     };
 
 
 
     return (
+       
         <li onClick={() => navigate(`/`)}
             className="doctorItem">
 
@@ -77,7 +121,7 @@ const DoctorsItem = (props) => {
             </div>
             <div className="doctorItem__phone">{props.phone.replace(/\s/g, '')}</div>
             <div className="doctorItem__speciality">{props.speciality}</div>
-            <div className="doctorItem__entry-date">{props.entryDate.slice(4, 16)}</div>
+            <div className="doctorItem__entry-date">{props.entryDate}</div>
             <div className="doctorItem__salary">{props.salary}</div>
             <div className="doctorItem__change">
                 <img src={more} alt="" />
@@ -120,7 +164,7 @@ const DoctorsItem = (props) => {
                         </div>
                         <div className="admin-add__input__wrapper">
                             <div className="admin-add__input__label">Date of entry</div>
-                            <input value={entryDate} onChange={(e) => setEntryDate(e.target.value)} id="admin-add__doctor__entry-date" type="text" className="admin-add__input" />
+                            <input value={entryDate} onChange={(e) => setEntryDate(e.target.value)} id="admin-add__doctor__entry-date" type="date" className="admin-add__input" />
                         </div>
                         <div className="admin-add__input__wrapper">
                             <div className="admin-add__input__label">Salary</div>
@@ -177,8 +221,10 @@ const DoctorsItem = (props) => {
                 </form>
 
             </Modal>
-
+            
+            
         </li>
+       
     )
 
 }

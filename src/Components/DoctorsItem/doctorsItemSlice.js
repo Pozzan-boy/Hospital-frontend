@@ -1,173 +1,171 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+// import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
+// import { useSelector, useDispatch } from 'react-redux';
+// import axios from 'axios';
+// import {getDoctorsCount} from "../DoctorsList/DoctorsListSlice"
+// const addUrl = '/doctor/add';
+// const updateUrl = 'http://localhost:3001/doctor/edit'
 
-const addUrl = "/doctor/add";
-const updateUrl = "http://localhost:3001/doctor/edit"
-
-const initialState = {
-    name: "",
-    surname: "",
-    doctors: [], // define an empty array for doctors
-    age: 0,
-    speciality: "",
-    entryDate: "",
-    salary: 0,
-    email: "",
-    phone: "",
-    doctor: {},
-    status: 'idle',
-    error: null
-}
-
-export const postDoctor = createAsyncThunk(
-    "doctor/postDoctor",
-    async ({ name, surname, age, speciality, entryDate, salary, email, phone, token }) => {
-        const post = await axios.post(addUrl, {
-            name,
-            surname,
-            age,
-            speciality,
-            entryDate,
-            salary,
-            email,
-            phone
-        }, {
-            headers: {
-                Authorization: token
-            }
-        });
-
-        return post.data;
-    }
-);
-
-export const updateDoctor = createAsyncThunk(
-    "doctor/updateDoctor",
-    async ([item, token, id]) => {
-        const post = await axios.put(`${updateUrl}/${id}`, item,
-            {
-                headers: {
-                    Authorization: token
-                }
-            });
-
-        return post.data;
-    }
-);
-
-export const deleteDoctor = createAsyncThunk(
-    "doctor/deleteDoctor",
-    async ([id, token]) => {
-        const response = await axios.delete(`/doctor/delete/${id}`,
-        {
-            headers: {
-                Authorization: token
-            }
-        })
-        return response.data;
-    }
-);
-
-export const registerDoctor = createAsyncThunk(
-    "doctor/registerDoctor",
-    async ([item, token]) => {
-        const response = await axios.post(`/auth/register/doctor`, 
-            item,
-            {
-                headers: {
-                    Authorization: token
-                }
-            }
-        );
-        return response.data;
-    }
-);
-
-const postDoctorSlice = createSlice({
-    name: 'doctor',
-    initialState,
-    reducers: {
-        doctorDeleted: (state, action) => {
-            console.log('as43');
-            state.status = "deleted";
-            state.doctors = state.doctors.filter((item) => item.id !== action.payload);
-          },
-          
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(postDoctor.pending, (state) => {
-                state.status = 'loading';
-            })
-            .addCase(postDoctor.fulfilled, (state, action) => {
-                state.status = 'posted';
-                state.doctor = action.payload;
-
-            })
-            .addCase(postDoctor.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message;
-            })
+// const initialState = {
+ 
+//     status: 'idle',
+//     error: null
+// }
 
 
-            .addCase(updateDoctor.pending, (state) => {
-                state.status = 'loading';
-            })
-            .addCase(updateDoctor.fulfilled, (state, action) => {
-                state.status = 'updated';
-                const updatedItem = action.payload;
-                const index = state.findIndex((item) => item.id === updatedItem.id);
-                if (index !== -1) {
-                    state.splice(index, 1, updatedItem);
-                }
+// export const postDoctor = ({id, token, name, surname, age, speciality, entryDate, salary, email, phone}) => async (dispatch) => {
+    
+//     try {
+//       // Make API call to delete item
+//       const post = await axios.post(addUrl, {
+//                     name,
+//                     surname,
+//                     age,
+//                     speciality,
+//                     entryDate,
+//                     salary,
+//                     email,
+//                     phone
+//                 }, {
+//                     headers: {
+//                         Authorization: token
+//                     }
+//                 });
+    
+//       // Dispatch success action with deleted item ID
+//       dispatch(doctorCreatedSuccess(post.data));
+//       dispatch(getDoctorsCount(token));
+//     } catch (error) {
+//       // Dispatch failure action with error message
+//       dispatch(doctorCreatedFailure(error.message));
+//     }
+//   }; 
+// // export const updateDoctor = createAsyncThunk(
+// //     'doctor/updateDoctor',
+// //     async ([item, token, id]) => {
+// //         const post = await axios.put(`${updateUrl}/${id}`, item,
+// //             {
+// //                 headers: {
+// //                     Authorization: token
+// //                 }
+// //             });
+
+// //         return post.data;
+// //     }
+// // );
 
 
-            })
-            .addCase(updateDoctor.rejected, (state, action) => {
-                state.status = 'failed';
-                console.log('rejected');
-                state.error = action.error.message;
-            })
+
+// export const registerDoctor = createAsyncThunk(
+//     'doctor/registerDoctor',
+//     async ([item, token]) => {
+//         const response = await axios.post(`/auth/register/doctor`, 
+//             item,
+//             {
+//                 headers: {
+//                     Authorization: token
+//                 }
+//             }
+//         );
+//         return response.data;
+//     }
+// );
+// export const updateDoctor = ([item, token, id]) => async (dispatch) => {
+//     try {
+//       // Make API call to delete item
+//       const response = await axios.put(`${updateUrl}/${id}`, item,
+//             {
+//                 headers: {
+//                     Authorization: token
+//                 }
+//             });
+//             console.log(response.data)
+//             // let doctors = useSelector(state => state.doctors.doctors);
+//       dispatch(updateDoctorSuccess(response.data));
+//     } catch (error) {
+//       dispatch(updateDoctorFailure(error.message));
+//     }
+//   };
+// const postDoctorSlice = createSlice({
+//     name: 'doctor',
+//     initialState,
+//     reducers: {
+
+//           doctorCreatedSuccess: (state, action) => {
+//             console.log('added');
+//             state.status = 'added'
+//             state.doctor = action.payload;
+//           }, 
+//           doctorCreatedFailure: (state, action) => {
+//             state.status = 'failed';
+//             state.error = action.error.message;
+//           }, 
+
+//           updateDoctorSuccess: (state, action) => {
+//             state.status = 'updated';
+//             console.log(current(state));
+//             const updatedItem = action.payload;
+            
+//             // const index = state.doctors.doctors.findIndex((item) => item._id === updatedItem._id);
+//             // if (index !== -1) {
+//             //     state.splice(index, 1, updatedItem);
+//             // }
+//           }, 
+//           updateDoctorFailure: (state, action) => {
+//             state.status = 'failed';
+//             state.error = action.error.message;
+//           }, 
+//     },
+//     extraReducers: (builder) => {
+//         builder
 
 
-            .addCase(deleteDoctor.pending, (state) => {
-                state.status = 'loading';
-                console.log('pending');
-            })
-            .addCase(deleteDoctor.fulfilled, (state, action) => {
-                console.log('fulfilled');
-                state.status = 'deleted';
-                state.doctors = state.doctors.filter(item => item.id !== action.payload);
-                
+
+//             // .addCase(updateDoctor.pending, (state) => {
+//             //     state.status = 'loading';
+//             // })
+//             // .addCase(updateDoctor.fulfilled, (state, action) => {
+//             //     state.status = 'updated';
+//             //     const updatedItem = action.payload;
+//             //     const index = state.findIndex((item) => item.id === updatedItem.id);
+//             //     if (index !== -1) {
+//             //         state.splice(index, 1, updatedItem);
+//             //     }
 
 
-            })
-            .addCase(deleteDoctor.rejected, (state, action) => {
-                state.status = 'failed';
-                console.log('rejected');
-                state.error = action.error.message;
-            })
-            .addCase(registerDoctor.pending, (state) => {
-                state.status = 'loading';
-            })
-            .addCase(registerDoctor.fulfilled, (state, action) => {
-                state.status = 'registered';
-                state.users = action.payload;
+//             // })
+//             // .addCase(updateDoctor.rejected, (state, action) => {
+//             //     state.status = 'failed';
+//             //     console.log('rejected');
+//             //     state.error = action.error.message;
+//             // })
 
 
-            })
-            .addCase(registerDoctor.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message;
-            })
-            .addDefaultCase(() => {});
-    },
-});
+            
+//             .addCase(registerDoctor.pending, (state) => {
+//                 state.status = 'loading';
+//             })
+//             .addCase(registerDoctor.fulfilled, (state, action) => {
+//                 state.status = 'registered';
+//                 state.users = action.payload;
 
 
-const {actions, reducer} = postDoctorSlice;
-export default reducer;
-export const {
-    doctorDeleted
-} = actions
+//             })
+//             .addCase(registerDoctor.rejected, (state, action) => {
+//                 state.status = 'failed';
+//                 state.error = action.error.message;
+//             })
+//             .addDefaultCase(() => {});
+//     },
+// });
+
+
+// const {actions, reducer} = postDoctorSlice;
+// export default reducer;
+// export const {
+
+//     doctorCreatedSuccess,
+//     doctorCreatedFailure,
+//     updateDoctorSuccess,
+//     updateDoctorFailure
+    
+// } = actions
