@@ -1,18 +1,41 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import Logo from "../../Logo/Logo";
 import Button from "../../Button/Button";
 import user from '../../../assets/icons/user.svg';
 import lock from '../../../assets/icons/lock.svg';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { accountFetched, accountFetching, accountFetchingError } from "../loginSlice";
+import axios from "axios";
 
 const DoctorLogin = () => {
+
+    const dispatch = useDispatch();
+
+    const navigate = useNavigate();
 
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+        dispatch(accountFetching());
+        axios.post('/auth/login', {
+            login,
+            password,
+            role: 'doctor'
+        })
+        .then(res => {
+            dispatch(accountFetched(res.data));
+            localStorage.setItem('token', res.data.token);
+            navigate('/');
+        })
+        .catch(() => dispatch(accountFetchingError()));
+    }
+
     return(
-        <form className="log-form">
+        <form onSubmit={onSubmit} className="log-form">
             <Logo color="#A70505" />
             <h3 className="log-form__title">Login</h3>
             <h4 className="log-form__subtitle">To continue as doctor</h4>
