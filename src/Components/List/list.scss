@@ -11,6 +11,32 @@
         margin-left: 70px;
         &__item{
             color: var(--main-text-color);
+            
         }
     }
+}
+#doctor-header-basic-info{
+    width: 220px;
+    color: var(--main-text-color);
+    margin-left: 31px;
+}
+#doctor-header-phone{
+    width: 160px;
+    color: var(--main-text-color);
+    margin-left: 54px;
+}
+#doctor-header-speciality{
+    width: 160px;
+    color: var(--main-text-color);
+    margin-left: 130px;
+}
+#doctor-header-entry-date{
+    width: 140px;
+    color: var(--main-text-color);
+    margin-left: 120px;
+}
+#doctor-header-salary{
+    width: 70px;
+    color: var(--main-text-color);
+    margin-left: 140px;
 }

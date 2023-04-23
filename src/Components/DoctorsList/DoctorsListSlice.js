@@ -30,7 +30,7 @@ export const fetchDoctors = ([token, count, start]) => async (dispatch) => {
             }
         });
       // Dispatch success action with deleted item ID
-      console.log(response.data)
+
       dispatch(fetchDoctorsSuccess(response.data));
 
     } catch (error) {
@@ -119,7 +119,7 @@ export const postDoctor = ({id, token, name, surname, age, speciality, entryDate
                     Authorization: token
                 }
             });
-            console.log(response.data)
+
             // let doctors = useSelector(state => state.doctors.doctors);
       dispatch(updateDoctorSuccess(response.data));
     } catch (error) {
@@ -183,7 +183,7 @@ const doctorsSlice = createSlice({
         },
         
         doctorCreatedSuccess: (state, action) => {
-            console.log('added');
+
             state.status = 'added'
             state.doctor = action.payload;
           }, 
@@ -205,7 +205,7 @@ const doctorsSlice = createSlice({
           updateDoctorFailure: (state, action) => {
             state.status = 'failed';
             state.error = action.error.message;
-            console.log(action)
+
           }, 
           registerDoctorSuccess: (state, action) => {
             state.status = 'registered';
@@ -219,7 +219,7 @@ const doctorsSlice = createSlice({
             state.doctorsCount = action.payload; 
           }, 
           getDoctorsCountFailure:(state, action) => {
-            console.log(action);
+
             state.error = action.payload;
           }, 
           setStatusIdle:(state, action) => {

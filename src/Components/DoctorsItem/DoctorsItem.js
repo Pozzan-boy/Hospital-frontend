@@ -1,12 +1,13 @@
 
 import "./DoctorsItem.scss";
-import { useEffect,useState,useMemo  } from "react";
+import { useEffect,useState,useMemo,useCallback  } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateDoctor, registerDoctor} from "../DoctorsList/DoctorsListSlice";
 import deleteIcon from "../../assets/icons/delete.svg";
 // import { deleteDoctorItem } from "./docSlice";
 import axios from "axios";
+import FormInput from "../FormInput/FormInput";
 import editIcon from "../../assets/icons/edit.svg";
 import keyIcon from "../../assets/icons/key.svg";
 import Button from "../Button/Button";
@@ -14,7 +15,7 @@ import Checkbox from "../Checkbox/Checkbox";
 import more from "../../assets/icons/more.svg";
 import Modal from "../Modal/Modal";
 import closeIcon from "../../assets/icons/close.svg";
-
+import ListItem from "../ListItem/ListItem";
 import { deleteDoctorItem} from '../DoctorsList/DoctorsListSlice';
 
 const DoctorsItem = (props) => {
@@ -59,60 +60,45 @@ const DoctorsItem = (props) => {
         
       }, [props]);
     
-    // useEffect(() => {
-    //     const [name, setName] = useState(props.name);
-    //     const [surname, setSurname] = useState(props.surname);
-    //     const [age, setAge] = useState(props.age);
-    //     const [speciality, setSpeciality] = useState(props.speciality);
-    //     const [entryDate, setEntryDate] = useState(props.entryDate);
-    //     const [salary, setSalary] = useState(props.salary);
-    //     const [email, setEmail] = useState(props.email);
-    //     const [phone, setPhone] = useState(props.phone);
-        
-    // }, [currentPage, doctorsCount, itemOffset]);
+  
    console.log(name);
    console.log(surname);
-    const handleDelete = (e) => {
-        e.preventDefault();
-        dispatch(deleteDoctorItem([props._id,token]));
-        // clickModalMessageHandler();
-        
-       
-    };
-    useEffect(() => {
-        if(status!=="idle"){
-            clickModalMessageHandler();
-        }
-        
-      }, [status]);
-    const handleUpdate = (e) => {
-        e.preventDefault();
-        const id = props._id;
-        const updatedItem = { name, surname, age, speciality, entryDate, salary, email, phone };
-        dispatch(updateDoctor([updatedItem, token, id]));
-        // clickModalMessageHandler();
-        console.log(status);
 
+   useEffect(() => {
+    if(status!=="idle"){
+        clickModalMessageHandler();
+    }
+    
+  }, [status]);
+   const handleDelete = useCallback((e) => {
+    e.preventDefault();
+    dispatch(deleteDoctorItem([props._id, token]));
+  }, [dispatch, props._id, token]);
+  
+  const handleUpdate = useCallback((e) => {
+    e.preventDefault();
+    const id = props._id;
+    const updatedItem = { name, surname, age, speciality, entryDate, salary, email, phone };
+    dispatch(updateDoctor([updatedItem, token, id]));
+    console.log(status);
+  }, [dispatch, name, surname, age, speciality, entryDate, salary, email, phone, props._id, token]);
+  
+  const handleRegister = useCallback((e) => {
+    e.preventDefault();
+    const item = {
+      login,
+      password,
+      role: "doctor",
+      key: props._id,
     };
-    const handleRegister = (e) => {
-        e.preventDefault();
-        const item = {
-            login,
-            password,
-            role: "doctor",
-            key: props._id
-        };
-        dispatch(registerDoctor([item, token]));
-        // clickModalMessageHandler();
-
-    };
+    dispatch(registerDoctor([item, token]));
+  }, [dispatch, login, password, props._id, token]);
 
 
 
     return (
-       
-        <li onClick={() => navigate(`/`)}
-            className="doctorItem">
+       <ListItem
+            className="list-item">
 
             <Checkbox variant="square" onCheck={setCheckStatus} />
             <div className="doctorItem__personal">
@@ -221,9 +207,9 @@ const DoctorsItem = (props) => {
                 </form>
 
             </Modal>
-            
-            
-        </li>
+
+       </ListItem>
+     
        
     )
 
