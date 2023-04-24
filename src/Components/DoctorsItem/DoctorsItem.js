@@ -4,8 +4,9 @@ import { useEffect,useState,useMemo,useCallback  } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateDoctor, registerDoctor} from "../DoctorsList/DoctorsListSlice";
+import { doctorSchema } from "../../schemas/doctorSchema";
+import { useFormik } from "formik";
 import deleteIcon from "../../assets/icons/delete.svg";
-// import { deleteDoctorItem } from "./docSlice";
 import axios from "axios";
 import FormInput from "../FormInput/FormInput";
 import editIcon from "../../assets/icons/edit.svg";
@@ -27,6 +28,67 @@ const DoctorsItem = (props) => {
     const status = useSelector(state => state.doctors.status);
     const token = useSelector(state => state.account.token);
     const dispatch = useDispatch();
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+
+  
+  const handleRegister = useCallback((e) => {
+    e.preventDefault();
+    const item = {
+      login,
+      password,
+      role: "doctor",
+      key: props._id,
+    };
+    dispatch(registerDoctor([item, token]));
+  }, [dispatch, login, password, props._id, token]);
+
+  const onSubmit =  (values, actions) => {
+    console.log("submitted");
+    const id = props._id;
+    const updatedItem = {
+        name: values.name,
+        surname: values.surname,
+        age: values.age,
+        speciality: values.speciality,
+        entryDate: values.entryDate,
+        salary: values.salary,
+        email: values.email,
+        phone: values.phone,
+        token,
+    };
+    dispatch(updateDoctor([updatedItem, token, id]));
+
+    
+};
+    const {
+        values,
+        errors,
+        isSubmitting,
+        handleBlur,
+        handleChange,
+        handleSubmit,
+        touched,
+    } = useFormik({
+        initialValues: {
+            name: props.name,
+            surname: props.surname,
+            age: props.age,
+            speciality: props.speciality,
+            entryDate: props.entryDate,
+            salary: props.salary,
+            email: props.email,
+            phone: props.phone,
+        },
+        validationSchema: doctorSchema,
+        onSubmit,
+    });
+
+   
+console.log(errors);
+
+
+
     const clickHandler = () => {
         setModalActive(true);
     }
@@ -38,25 +100,17 @@ const DoctorsItem = (props) => {
     }
     const [checkStatus, setCheckStatus] = useState(false);
 
-    const [name, setName] = useState(props.name);
-    const [surname, setSurname] = useState(props.surname);
-    const [age, setAge] = useState(props.age);
-    const [speciality, setSpeciality] = useState(props.speciality);
-    const [entryDate, setEntryDate] = useState(props.entryDate);
-    const [salary, setSalary] = useState(props.salary);
-    const [email, setEmail] = useState(props.email);
-    const [phone, setPhone] = useState(props.phone);
-    const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
+ 
     useEffect(() => {
-        setName(props.name);
-        setSurname(props.surname);
-        setAge(props.age);
-        setSpeciality(props.speciality);
-        setEntryDate(props.entryDate);
-        setSalary(props.salary);
-        setEmail(props.email);
-        setPhone(props.phone);
+        values.name = props.name;
+        values.surname = props.surname;
+        values.age = props.age;
+        values.speciality = props.speciality;
+        values.salary = props.salary;
+        values.entryDate = props.entryDate;
+        values.email = props.email;
+        values.phone = props.phone;
+       
         
       }, [props]);
     
@@ -72,24 +126,6 @@ const DoctorsItem = (props) => {
     dispatch(deleteDoctorItem([props._id, token]));
   }, [dispatch, props._id, token]);
   
-  const handleUpdate = useCallback((e) => {
-    e.preventDefault();
-    const id = props._id;
-    const updatedItem = { name, surname, age, speciality, entryDate, salary, email, phone };
-    dispatch(updateDoctor([updatedItem, token, id]));
-    console.log(status);
-  }, [dispatch, name, surname, age, speciality, entryDate, salary, email, phone, props._id, token]);
-  
-  const handleRegister = useCallback((e) => {
-    e.preventDefault();
-    const item = {
-      login,
-      password,
-      role: "doctor",
-      key: props._id,
-    };
-    dispatch(registerDoctor([item, token]));
-  }, [dispatch, login, password, props._id, token]);
 
 
 
@@ -126,40 +162,105 @@ const DoctorsItem = (props) => {
             </div>
             <Modal active={modalActive} setActive={setModalActive}>
 
-                <form onSubmit={(e) => { handleUpdate(e) }} className="admin-add admin-add__doctor" action="">
+                <form onSubmit={handleSubmit} className="admin-add admin-add__doctor" action="">
                     <h2 className="admin-add__header">Type information about doctor</h2>
                     <div className="admin-add__inputs">
                         <div className="admin-add__input__wrapper">
                             <div className="admin-add__input__label">Name</div>
-                            <input value={name} onChange={(e) => setName(e.target.value)} id="admin-add__doctor__name" type="text" className="admin-add__input" />
+                            <input
+                                value={values.name}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                id="admin-add__doctor__name"
+                                type="text"
+                                className={errors.name && touched.name ? "admin-add__input-error" : "admin-add__input"}
+                                name="name" />
+                            {errors.name && touched.name && <p className="error">{errors.name}</p>}
                         </div>
                         <div className="admin-add__input__wrapper">
                             <div className="admin-add__input__label">Surname</div>
-                            <input value={surname} onChange={(e) => setSurname(e.target.value)} id="admin-add__doctor__surname" type="text" className="admin-add__input" />
+                            <input
+                                id="admin-add__doctor__surname"
+                                type="text"
+                                name="surname"
+                                value={values.surname}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className={errors.surname && touched.surname ? "admin-add__input-error" : "admin-add__input"}
+                            />
+                            {errors.surname && touched.surname && <p className="error">{errors.surname}</p>}
                         </div>
                         <div className="admin-add__input__wrapper">
                             <div className="admin-add__input__label">Age</div>
-                            <input value={age} onChange={(e) => setAge(e.target.value)} id="admin-add__doctor__age" type="text" className="admin-add__input" />
+                            <input
+                                value={values.age}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                id="admin-add__doctor__age"
+                                type="text"
+                                className={errors.age && touched.age ? "admin-add__input-error" : "admin-add__input"}
+                                name="age" />
+                            {errors.age && touched.age && <p className="error">{errors.age}</p>}
                         </div>
                         <div className="admin-add__input__wrapper">
                             <div className="admin-add__input__label">Speciality</div>
-                            <input value={speciality} onChange={(e) => setSpeciality(e.target.value)} id="admin-add__doctor__speciality" type="text" className="admin-add__input" />
+                            <input
+                                value={values.speciality}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                id="admin-add__doctor__speciality"
+                                type="text"
+                                className={errors.speciality && touched.speciality ? "admin-add__input-error" : "admin-add__input"}
+                                name="speciality" />
+                            {errors.speciality && touched.speciality && <p className="error">{errors.speciality}</p>}
                         </div>
                         <div className="admin-add__input__wrapper">
                             <div className="admin-add__input__label">Date of entry</div>
-                            <input value={entryDate} onChange={(e) => setEntryDate(e.target.value)} id="admin-add__doctor__entry-date" type="date" className="admin-add__input" />
+                            <input
+                                value={values.entryDate}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                id="admin-add__doctor__entryDate"
+                                type="date"
+                                className={errors.entryDate && touched.entryDate ? "admin-add__input-error" : "admin-add__input"}
+                                name="entryDate" />
+                            {errors.entryDate && touched.entryDate && <p className="error">{errors.entryDate}</p>}
                         </div>
                         <div className="admin-add__input__wrapper">
                             <div className="admin-add__input__label">Salary</div>
-                            <input value={salary} onChange={(e) => setSalary(e.target.value)} id="admin-add__doctor__salary" type="text" className="admin-add__input" />
+                            <input
+                                value={values.salary}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                id="admin-add__doctor__salary"
+                                type="text"
+                                className={errors.salary && touched.salary ? "admin-add__input-error" : "admin-add__input"}
+                                name="salary" />
+                            {errors.salary && touched.salary && <p className="error">{errors.salary}</p>}
                         </div>
                         <div className="admin-add__input__wrapper">
                             <div className="admin-add__input__label">Email</div>
-                            <input value={email} onChange={(e) => setEmail(e.target.value)} id="admin-add__doctor__email" type="text" className="admin-add__input" />
+                            <input
+                                value={values.email}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                id="admin-add__doctor__email"
+                                type="email"
+                                className={errors.email && touched.email ? "admin-add__input-error" : "admin-add__input"}
+                                name="email" />
+                            {errors.email && touched.email && <p className="error">{errors.email}</p>}
                         </div>
                         <div className="admin-add__input__wrapper">
                             <div className="admin-add__input__label">Phone</div>
-                            <input value={phone} onChange={(e) => setPhone(e.target.value)} id="admin-add__doctor__phone" type="text" className="admin-add__input" />
+                            <input
+                                value={values.phone}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                id="admin-add__doctor__phone"
+                                type="text"
+                                className={errors.phone && touched.phone ? "admin-add__input-error" : "admin-add__input"}
+                                name="phone" />
+                            {errors.phone && touched.phone && <p className="error">{errors.phone}</p>}
                         </div>
                     </div>
                     <Button

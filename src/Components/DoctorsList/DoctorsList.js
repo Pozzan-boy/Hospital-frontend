@@ -1,4 +1,4 @@
-import { useEffect, useState, useLayoutEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./DoctorsList.scss";
 import DoctorsItem from "../DoctorsItem/DoctorsItem";
@@ -9,6 +9,9 @@ import Button from "../Button/Button";
 import successIcon from "../../assets/icons/success.svg";
 import errorIcon from "../../assets/icons/error.svg"
 import List from "../List/List";
+
+
+
 const DoctorsList = () => {
     const [modalMessageActive, setModalMessageActive] = useState(false);
     const clickModalMessageHandler = () => {
