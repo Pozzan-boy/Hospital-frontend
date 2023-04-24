@@ -7,13 +7,15 @@ import { accountFetching, accountFetched, accountFetchingError } from '../Login/
 
 import './app.scss';
 
+axios.defaults.baseURL = 'http://localhost:3001';
+
 const App = () => {
 
 	const dispatch = useDispatch();
 	const token = localStorage.getItem('token');
 	if(token !== 'undefined') {
 		dispatch(accountFetching());
-        axios.post('/auth/login', {}, {
+        axios.post('auth/login', {}, {
 			headers: {
 				'Authorization': token
 			}

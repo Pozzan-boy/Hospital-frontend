@@ -1,14 +1,12 @@
 
 import "./DoctorsItem.scss";
-import { useEffect,useState,useMemo,useCallback  } from "react";
+import { useEffect,useState,useCallback  } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateDoctor, registerDoctor} from "../DoctorsList/DoctorsListSlice";
 import { doctorSchema } from "../../schemas/doctorSchema";
 import { useFormik } from "formik";
 import deleteIcon from "../../assets/icons/delete.svg";
-import axios from "axios";
-import FormInput from "../FormInput/FormInput";
 import editIcon from "../../assets/icons/edit.svg";
 import keyIcon from "../../assets/icons/key.svg";
 import Button from "../Button/Button";
@@ -20,11 +18,9 @@ import ListItem from "../ListItem/ListItem";
 import { deleteDoctorItem} from '../DoctorsList/DoctorsListSlice';
 
 const DoctorsItem = (props) => {
-    const navigate = useNavigate();
     const [modalActive, setModalActive] = useState(false);
     const [modalRegisterActive, setModalRegisterActive] = useState(false);
 
-    const doctors = useSelector(state => state.doctors.doctors);
     const status = useSelector(state => state.doctors.status);
     const token = useSelector(state => state.account.token);
     const dispatch = useDispatch();
@@ -64,7 +60,6 @@ const DoctorsItem = (props) => {
     const {
         values,
         errors,
-        isSubmitting,
         handleBlur,
         handleChange,
         handleSubmit,
