@@ -19,10 +19,10 @@ const DoctorsList = () => {
     const { doctors, doctorsLoadingStatus, currentPage, doctorsCount } = useSelector(state => state.doctors);
     const dispatch = useDispatch();
     const token = useSelector((state) => state.account.token);
-    const doctorsPerPage = 1;
+    const doctorsPerPage = 3;
     let pageCount = Math.ceil(doctorsCount / doctorsPerPage);
     const [itemOffset, setItemOffset] = useState(0);
-
+    
     useEffect(() => {
         dispatch(fetchDoctors([token, doctorsPerPage, itemOffset]));
         dispatch(getDoctorsCount(token));
@@ -113,7 +113,7 @@ const DoctorsList = () => {
 
 
                 {elements}
-                <Pagination pageCount={pageCount} currentPage={currentPage} onChangePage={handlePageClick} itemsPerPage={doctorsPerPage} totalItemsCount={doctorsCount} />
+                <Pagination pageCount={pageCount} currentPage={currentPage} onChangePage={handlePageClick} itemsPerPage={doctorsPerPage} currentDoctors={doctors} />
                 <Modal active={modalMessageActive} setActive={setModalMessageActive} modalClass={"modal__status"}>
                     <img className="modal__status__img" src={statusIcon} alt="x" />
 

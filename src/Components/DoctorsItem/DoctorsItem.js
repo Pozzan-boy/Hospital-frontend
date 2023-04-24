@@ -60,9 +60,6 @@ const DoctorsItem = (props) => {
         
       }, [props]);
     
-  
-   console.log(name);
-   console.log(surname);
 
    useEffect(() => {
     if(status!=="idle"){
