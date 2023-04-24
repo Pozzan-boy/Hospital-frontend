@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk , current} from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux'
+import { createSlice } from '@reduxjs/toolkit';
 import axios from "axios";
 const baseUrl = "http://localhost:3001/doctor/getAllDoctors";
 const addUrl = '/doctor/add';
@@ -229,16 +228,6 @@ const doctorsSlice = createSlice({
     },
     extraReducers: (builder) =>{
         builder   
-            // .addCase(getDoctorsCount.pending, state => {state.doctorsCountStatus = 'loading'})
-            // .addCase(getDoctorsCount.fulfilled, (state, action) =>{
-            //     state.doctorsCountStatus = 'idle';
-            //     state.doctorsCount = action.payload.length; 
-            // })
-            // .addCase(getDoctorsCount.rejected, state => {
-            //     state.doctorsCountStatus = 'error';
-            //     console.log('error');
-            // })
-   
             .addDefaultCase(() => {})
     }
 })
