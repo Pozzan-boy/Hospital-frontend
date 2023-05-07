@@ -1,0 +1,78 @@
+.patient{
+    width: 96%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    // justify-content: space-between;
+    background-color: #fff;
+    border-radius: 12px;
+
+    &:hover{
+        cursor:pointer;
+        
+    }
+    &__check{
+        margin-left: 37px;
+    }
+    &__personal{
+        width: 220px;
+        margin-left: 31px;
+        &__name{
+            color: #000;
+            font-weight: 700;
+        }
+        &__email{
+            color:var(--main-text-color);
+        }
+    }
+    &__phone{
+        width: 160px;
+        margin-left: 54px;
+    }
+    &__sex{
+        width: 160px;
+        margin-left: 130px;
+    }
+    &__height{
+        width: 140px;
+        margin-left: 160px;
+    }
+    &__weight{
+        width: 70px;
+        margin-left: 70px;
+    }
+    &__change{
+        margin-left: 30px;
+        position: relative;
+        display: inline-block;
+        &:hover{
+            cursor: pointer;
+        }
+        &:hover .dropdown-content{
+            display: flex;
+        }
+        &__item{
+            display: flex;
+            width: 100%;
+            align-items: center;
+            padding: 0 15px;
+            height: 50%;
+            &:hover{
+                background-color: #eeeeee;
+            }
+            span{
+                margin-left: 15px;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 24px;
+                color: #8B9399;
+            }
+            img{
+                width: 30px;
+            }
+        }
+    }
+
+    
+}
+

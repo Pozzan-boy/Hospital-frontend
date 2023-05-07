@@ -1,0 +1,50 @@
+db.patients.insertMany([{
+    name: "Mark",
+    surname: "Reeves",
+    birthDate: "2000-01-15",
+    sex: "male",
+    height: 180,
+    weight: 70,
+    email: "lordqw@buzzcol.com",
+    phone: "+380543217572"
+},
+{
+    name: "Mark",
+    surname: "Reeves",
+    birthDate: "2000-01-15",
+    sex: "male",
+    height: 180,
+    weight: 70,
+    email: "lordqw@buzzcol.com",
+    phone: "+380543217572"
+},{
+    name: "Mark",
+    surname: "Reeves",
+    birthDate: "2000-01-15",
+    sex: "male",
+    height: 180,
+    weight: 70,
+    email: "lordqw@buzzcol.com",
+    phone: "+380543217572"
+},{
+    name: "Mark",
+    surname: "Reeves",
+    birthDate: "2000-01-15",
+    sex: "male",
+    height: 180,
+    weight: 70,
+    email: "lordqw@buzzcol.com",
+    phone: "+380543217572"
+},{
+    name: "Mark",
+    surname: "Reeves",
+    birthDate: "2000-01-15",
+    sex: "male",
+    height: 180,
+    weight: 70,
+    email: "lordqw@buzzcol.com",
+    phone: "+380543217572"
+},
+
+]
+)

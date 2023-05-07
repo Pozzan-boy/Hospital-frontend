@@ -7,12 +7,50 @@ body{
     justify-content: space-between;
     flex-direction: row-reverse;
 }
+.admin-panel{
+    &__navigation{
+        #menu{
+            display: flex;
+            width: 700px;
+            justify-content:space-between;
+            align-items: center;
+            font-weight: 600;
+            column-gap: 20px;
+            li{
+                list-style: none;
+                a{
+                    text-decoration: none;
+                    color: var(--main-text-color);
+                    font-size: 20px;
+                    &:hover{
+                        color: var(--secondary-color);
+                    }
+                }
+                .nav-active{
+                    color: var(--secondary-color);
+                    &::after{
+                        content: "";
+                        display: block;
+                        height: 3px;
+                        width: 100%;
+                        background-color: var(--secondary-color)
+                    }
+                }
+            }
+        }
+    }
+    &__header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
 .admin-panel__side-bar{
     position: absolute;
     top: 0;
     right: 0;
     height: 100%;
-    width: 480px;
+    width: 280px;
     background-color: var(--main-text-color);
     display: flex;
     flex-direction: column;
@@ -20,7 +58,7 @@ body{
 }
 .admin-panel__info{
     height: 128px;
-    width: 100%;
+    width: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -43,7 +81,7 @@ body{
         font-weight: 500;
         font-size: 24px;
         line-height: 29px;
-        color: #FFFFFF;
+        color: #000;
 
     }
 }
@@ -59,7 +97,7 @@ body{
         justify-content: center;
         color: #fff;
         font-weight: 500;
-        font-size: 24px;
+        font-size: 20px;
         line-height: 29px;
 
     }
@@ -67,5 +105,10 @@ body{
         background-color: #fff;
         color: var(--main-text-color);
         border: none;
+    }
+}
+.navigation{
+    #menu{
+        
     }
 }

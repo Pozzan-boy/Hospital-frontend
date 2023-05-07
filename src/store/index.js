@@ -2,11 +2,11 @@ import { configureStore , combineReducers} from "@reduxjs/toolkit";
 
 import account from "../components/Login/loginSlice";
 import doctors from "../components/DoctorsList/DoctorsListSlice"
-
+import patients from "../components/PatientsList/PatientsListSlice"
 const rootReducer = combineReducers({
     account: account,
     doctors: doctors,
-  
+    patients: patients
   });
 const store = configureStore({
     reducer: rootReducer,

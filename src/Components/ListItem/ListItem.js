@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const ListItem = ({children}) => {
     const navigate = useNavigate();
     return (
-        <li onClick={() => navigate(`/`)}className='list-item'>
+        <li className='list-item'>
             {children}
         </li>
     )

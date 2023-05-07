@@ -3,9 +3,9 @@ import ReactPaginate from 'react-paginate';
 
 import './pagination.scss';
 
-export const Pagination = ({ currentPage, onChangePage, pageCount, itemsPerPage, currentDoctors }) => {
+export const Pagination = ({ currentPage, onChangePage, pageCount, itemsPerPage, currentList }) => {
 
-  const isLastItemDeleted = currentDoctors.length === 0 ;
+  const isLastItemDeleted = currentList.length === 0 ;
   React.useEffect(() => {
     if (isLastItemDeleted && currentPage>1) {
       onChangePage({ selected: currentPage - 2 });

@@ -1,5 +1,5 @@
 .list-item{
-    width: 100%;
+    width: 95%;
     height: 80px;
     display: flex;
     align-items: center;
@@ -26,3 +26,6 @@
     z-index: 1;
     
   }
+.patient__birthdate{
+    margin-left: 50px;
+}

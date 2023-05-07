@@ -1,0 +1,43 @@
+.doctor-panel{
+
+    &__header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &__profile{
+        margin-right: 110px;
+        width: 167px;
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+        &__logo{
+            width: 70px;
+            height: 70px;
+            border-radius:100%;
+            background-color: var(--secondary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            span{
+                font-family: 'Montserrat';
+                font-weight: 600;
+                font-size: 40px;
+                line-height: 49px;
+                color: #FFFFFF;
+            }
+        }
+        &__name{
+            font-family: 'Montserrat';
+            font-weight: 500;
+            font-size: 24px;
+            line-height: 29px;
+            color: #000000;
+
+        }
+       
+    }
+    &__info{
+        margin: 0 auto;
+    }
+}
