@@ -1,0 +1,15 @@
+.dropdown-item{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    &__header{
+        font-size: 18px;
+        line-height: 24px;
+        color: #8B9399;
+    }
+    &__value{
+        font-size: 24px;
+        line-height: 29px;
+    }
+
+}

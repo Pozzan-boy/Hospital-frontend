@@ -16,7 +16,9 @@ const Root = () => {
             case 'admin':
                 return navigate("/admin");
             case 'doctor':
-                return  navigate("/doctor") ;
+                return  navigate("/doctor");
+            case 'patient':
+                return  navigate("/patient") ;
             default:
                 return <NotLoginRoute />
         }

@@ -1,20 +1,38 @@
 import {useState} from 'react';
-
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../Logo/Logo";
 import lock from "../../../assets/icons/lock.svg";
 import user from "../../../assets/icons/user.svg";
 import Button from "../../Button/Button";
-
+import { accountFetched, accountFetching, accountFetchingError } from "../loginSlice";
+import axios from "axios";
 import '../loginForm.scss';
 
-import { Link } from 'react-router-dom';
-
 const PatientLogin =() =>{
+    const dispatch = useDispatch();
+
+    const navigate = useNavigate();
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+const onSubmit = (e) => {
+        e.preventDefault();
+        dispatch(accountFetching());
+        axios.post('/auth/login', {
+            login,
+            password,
+            role: 'patient'
+        })
+        .then(res => {
+            dispatch(accountFetched(res.data));
+            localStorage.setItem('token', res.data.token);
+            navigate('/patient');
+        })
+        .catch(() => dispatch(accountFetchingError()));
+    }
 
     return(
-        <form className="log-form patient-log">
+        <form onSubmit={onSubmit} className="log-form patient-log">
             <Logo />
             <h3 className="log-form__title patient-log__title">Login</h3>
             <h4 className="log-form__subtitle patient-log__subtitle">To continue your account</h4>

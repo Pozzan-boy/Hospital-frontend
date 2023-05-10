@@ -3,10 +3,12 @@ import { configureStore , combineReducers} from "@reduxjs/toolkit";
 import account from "../components/Login/loginSlice";
 import doctors from "../components/DoctorsList/DoctorsListSlice"
 import patients from "../components/PatientsList/PatientsListSlice"
+import patient from "../components/PatientPanelInfo/PatientSlice"
 const rootReducer = combineReducers({
     account: account,
     doctors: doctors,
-    patients: patients
+    patients: patients,
+    patient: patient
   });
 const store = configureStore({
     reducer: rootReducer,

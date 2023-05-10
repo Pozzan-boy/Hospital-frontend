@@ -10,7 +10,7 @@ import AdminPanel from '../components/AdminPanel/AdminPanel';
 import AdminDoctorsRoute from './Admin/AdminDoctorsRoute';
 import AdminPatientsRoute from './Admin/AdminPatientsRoute';
 import AdminRoute from './Admin/AdminRoute';
-
+import PatientPanelInfo from '../components/PatientPanelInfo/PatientPanelInfo';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -29,6 +29,10 @@ const router = createBrowserRouter([
         path: '/admin/doctors',
         element: <AdminDoctorsRoute/>
         
+    },
+    {
+        path: '/patient',
+        element: <PatientPanelInfo/>
     },
     {
         path: '/login/admin',
