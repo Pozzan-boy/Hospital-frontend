@@ -15,6 +15,7 @@
     &__header{
         align-self: center;
         color: var(--secondary-color);
+        margin-bottom: 30px;
         
     }
     &__input__wrapper{
@@ -107,7 +108,7 @@
 }
 input[type="radio"]
 {
-  appearance: none;
+//   appearance: none;
 }
 
 input[type="radio"] + label
@@ -155,4 +156,19 @@ input[type="radio"] + label::after
 input[type="radio"]:checked + label::after
 {
   opacity: 1;
+}
+.custom-select{
+    position: relative;
+    select{
+        display: none; /*hide original SELECT element: */
+    }
+}
+#male, #female{
+    position: absolute;
+    z-index: 2;
+    opacity: 0;
+    top: 0px;
+    left: 0px;
+    width: 23px;
+    height: 23px;
 }

@@ -69,7 +69,7 @@ const PatientsList = () => {
         (
 
             <Patient
-                key={index}
+                key={props._id}
                 setModalMessageActive={setModalMessageActive}
                 {...props} />
 

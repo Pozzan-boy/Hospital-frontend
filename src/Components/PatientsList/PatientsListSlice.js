@@ -13,8 +13,17 @@ const initialState = {
     status: 'idle',
     error: null,
     patient: {},
-    checkedList: []
-
+    checkedList: [],
+    sexList:[
+        {
+            value: 'Male',
+            text: "Male"
+        },
+        {
+            value: 'Female',
+            text: "Female"
+        },
+    ]
 
 }
 

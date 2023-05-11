@@ -20,7 +20,7 @@ const AdminPatientsRoute = () => {
                 deleteItemsMany={deletePatientsMany}
                 postItemFunc={postPatient}
                 itemSchema={patientSchema}
-                itemName={'patient'}
+                tableName={'patient'}
                 clearCheckBoxes={clearCheckedList}
             />
             <PatientsList />
