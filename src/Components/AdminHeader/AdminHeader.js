@@ -11,7 +11,7 @@ const AdminHeader = ({ role }) => {
                 <ul id="menu">
                     <li><Link to="/admin/doctors" className={`nav-${role === 'doctor' ? "active" : 'item'}`}>View doctors</Link></li>
                     <li><Link to="/admin/patients" className={`nav-${role === 'patient' ? "active" : 'item'}`}>View patients</Link></li>
-                    <li><a href="#">View statistics</a></li>
+                    <li><Link to="/admin/wards" className={`nav-${role === 'ward' ? "active" : 'item'}`}>View wards</Link></li>
 
 
                 </ul>

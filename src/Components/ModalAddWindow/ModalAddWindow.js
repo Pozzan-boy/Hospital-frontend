@@ -184,7 +184,8 @@ const ModalAddWindow = (props) => {
                             name={`${inputs[5]}`} />
                         {errors[inputs[5]] && touched[inputs[5]] && <p className="error">{errors[inputs[5]]}</p>}
                     </div>
-                    <div className="modal-add__input__wrapper">
+                    {inputs.length > 6 ? (<>
+                        <div className="modal-add__input__wrapper">
                         <div className="modal-add__input__label">{`${inputs[6].charAt(0).toUpperCase()}${inputs[6].slice(1)}`}</div>
                         <input
                             value={values[inputs[6]]}
@@ -194,8 +195,8 @@ const ModalAddWindow = (props) => {
                             className={errors[inputs[6]] && touched[inputs[6]] ? "modal-add__input-error" : "modal-add__input"}
                             name={`${inputs[6]}`} />
                         {errors[inputs[6]] && touched[inputs[6]] && <p className="error">{errors[inputs[6]]}</p>}
-                    </div>
-                    <div className="modal-add__input__wrapper">
+                        </div>
+                        <div className="modal-add__input__wrapper">
                         <div className="modal-add__input__label">{`${inputs[7].charAt(0).toUpperCase()}${inputs[7].slice(1)}`}</div>
                         <input
                             value={values[inputs[7]]}
@@ -205,7 +206,11 @@ const ModalAddWindow = (props) => {
                             className={errors[inputs[7]] && touched[inputs[7]] ? "modal-add__input-error" : "modal-add__input"}
                             name={`${inputs[7]}`} />
                         {errors[inputs[7]] && touched[inputs[7]] && <p className="error">{errors[inputs[7]]}</p>}
-                    </div>
+                        </div>
+                        </>
+                        ) : ''
+                    }
+        
                 </div>
                 <Button
                     onClick={clickHandler}

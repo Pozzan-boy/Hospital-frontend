@@ -10,6 +10,7 @@ import AdminPanel from '../components/AdminPanel/AdminPanel';
 import AdminDoctorsRoute from './Admin/AdminDoctorsRoute';
 import AdminPatientsRoute from './Admin/AdminPatientsRoute';
 import AdminRoute from './Admin/AdminRoute';
+import AdminWardsRoute from './Admin/AdminWardsRoute';
 import PatientPanelInfo from '../components/PatientPanelInfo/PatientPanelInfo';
 const router = createBrowserRouter([
     {
@@ -28,6 +29,11 @@ const router = createBrowserRouter([
     {
         path: '/admin/doctors',
         element: <AdminDoctorsRoute/>
+        
+    },
+    {
+        path: '/admin/wards',
+        element: <AdminWardsRoute/>
         
     },
     {
