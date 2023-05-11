@@ -1,10 +1,10 @@
 
 import "./patient.scss";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updatePatient, registerPatient, deletePatient, removeCheckedListItem } from "../PatientsList/PatientsListSlice";
 import { patientSchema } from "../../schemas/patientSchema";
-import { useFormik } from "formik";
+import { Form, Formik, useFormik } from "formik";
 import { addCheckedListItem } from '../PatientsList/PatientsListSlice';
 import deleteIcon from "../../assets/icons/delete.svg";
 import editIcon from "../../assets/icons/edit.svg";
@@ -15,6 +15,9 @@ import more from "../../assets/icons/more.svg";
 import Modal from "../Modal/Modal";
 import closeIcon from "../../assets/icons/close.svg";
 import "../ListItem/listItem.scss"
+import CustomInput from "../ModalAddWindow/CustomInput";
+import CustomSelect from "../ModalAddWindow/CustomSelect";
+import CustomRadioButton from "../ModalAddWindow/CustomRadioButton";
 
 
 const PatientsItem = (props) => {
@@ -26,12 +29,19 @@ const PatientsItem = (props) => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [checkStatus, setCheckStatus] = useState(false);
-
+    const formRef = useRef();
     const status = useSelector(state => state.patients.status);
     const token = useSelector(state => state.account.token);
     const checkedList = useSelector(state => state.patients.checkedList)
     const isChecked = checkedList.includes(props._id);
+    const sexList = useSelector(state=> state.patients.sexList);
+    function SelectArray(props) {
+        return props.arr.map((item) =>
+        (
+            <option value={item.value}>{item.text}</option>
 
+        ))
+    }
     const handleRegister = async (e) => {
         e.preventDefault();
         const item = {
@@ -57,43 +67,13 @@ const PatientsItem = (props) => {
     }, [props._id])
     const onSubmit = (values, actions) => {
         const id = props._id;
-        const updatedItem = {
-            name: values.name,
-            surname: values.surname,
-            birthDate: values.birthDate,
-            sex: values.sex,
-            height: values.height,
-            weight: values.weight,
-            email: values.email,
-            phone: values.phone,
-
-        };
+        const updatedItem = { ...values, token };
         console.log();
         dispatch(updatePatient([updatedItem, token, id]));
 
 
     };
-    const {
-        values,
-        errors,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        touched,
-    } = useFormik({
-        initialValues: {
-            name: props.name,
-            surname: props.surname,
-            birthDate: props.birthDate,
-            sex: props.sex,
-            height: props.height,
-            weight: props.weight,
-            email: props.email,
-            phone: props.phone,
-        },
-        validationSchema: patientSchema,
-        onSubmit,
-    });
+
 
 
 
@@ -119,20 +99,6 @@ const PatientsItem = (props) => {
     }
 
 
-
-
-    useEffect(() => {
-        values.name = props.name;
-        values.surname = props.surname;
-        values.birthDate = props.birthDate;
-        values.sex = props.sex;
-        values.weight = props.weight;
-        values.height = props.height;
-        values.email = props.email;
-        values.phone = props.phone;
-
-
-    }, [props]);
 
 
     useEffect(() => {
@@ -183,123 +149,100 @@ const PatientsItem = (props) => {
                 </div>
             </div>
             <Modal active={modalActive} setActive={setModalActive}>
+            <Formik
+                innerRef={formRef}
+                initialValues={{ name: props.name, surname:props.surname, birthDate: props.birthDate, sex: props.sex, height: props.height, weight: props.weight, email: props.email, phone: props.phone }}
+                validationSchema={patientSchema}
+                onSubmit={onSubmit}>
+                {({ isSubmitting }) => (
+                    <Form className="modal-add">
+                        <h2 className="modal-add__header">Type information about patient</h2>
+                        <CustomInput
+                            label="Name"
+                            name="name"
+                            type="text"
+                            placeholder="Enter your name"
+                        />
+                        <CustomInput
+                            label="Surname"
+                            name="surname"
+                            type="text"
+                            placeholder="Enter your surname"
+                        />
+                        <CustomInput
+                            label="Birth Date"
+                            name="birthDate"
+                            type="date"
+                            placeholder="Enter your birth date"
+                        />
+                        <div className="modal-add__input__wrapper">
+                            <label className="modal-add__input__label">Sex</label>
+                            <div className="radio-buttons">
+                                
+                                <CustomRadioButton
+                                    label="Male"
+                                    type="radio"
+                                    name="sex"
+                                    value="Male"
+                                    id="male"
+                                    
+                                />
+                               <CustomRadioButton
+                                    label="Female"
+                                    type="radio"
+                                    name="sex"
+                                    value="Female"
+                                    id="female"
+                                    
+                                    
+                                />
+                            </div>
+                        </div>
+                       
+                        
+                        <CustomInput
+                            label="Height"
+                            name="height"
+                            type="text"
+                            placeholder="Enter your height"
+                        />
+                        <CustomInput
+                            label="Weight"
+                            name="weight"
+                            type="text"
+                            placeholder="Enter your weight"
+                        />
+                        <CustomInput
+                            label="Email"
+                            name="email"
+                            type="text"
+                            placeholder="Enter your email"
+                        />
+                        <CustomInput
+                            label="Phone"
+                            name="phone"
+                            type="text"
+                            placeholder="Enter your phone"
+                        />
 
-                <form onSubmit={handleSubmit} className="modal-edit modal-edit__patient" action="">
-                    <h2 className="modal-edit__header">Type information about patient</h2>
-                    <div className="modal-edit__inputs">
-                        <div className="modal-edit__input__wrapper">
-                            <div className="modal-edit__input__label">Name</div>
-                            <input
-                                value={values.name}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                id="modal-edit__patient__name"
-                                type="text"
-                                className={errors.name && touched.name ? "modal-edit__input-error" : "modal-edit__input"}
-                                name="name" />
-                            {errors.name && touched.name && <p className="error">{errors.name}</p>}
-                        </div>
-                        <div className="modal-edit__input__wrapper">
-                            <div className="modal-edit__input__label">Surname</div>
-                            <input
-                                id="modal-edit__patient__surname"
-                                type="text"
-                                name="surname"
-                                value={values.surname}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                className={errors.surname && touched.surname ? "modal-edit__input-error" : "modal-edit__input"}
-                            />
-                            {errors.surname && touched.surname && <p className="error">{errors.surname}</p>}
-                        </div>
-                        <div className="modal-edit__input__wrapper">
-                            <div className="modal-edit__input__label">Birth Date</div>
-                            <input
-                                value={values.birthDate}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                id="modal-edit__patient__birthDate"
-                                type="date"
-                                className={errors.birthDate && touched.birthDate ? "modal-edit__input-error" : "modal-edit__input"}
-                                name="birthDate" />
-                            {errors.birthDate && touched.birthDate && <p className="error">{errors.birthDate}</p>}
-                        </div>
-                        <div className="modal-edit__input__wrapper">
-                            <div className="modal-edit__input__label">Sex</div>
-                            <input
-                                value={values.sex}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                id="modal-edit__patient__sex"
-                                type="text"
-                                className={errors.sex && touched.sex ? "modal-edit__input-error" : "modal-edit__input"}
-                                name="sex" />
-                            {errors.sex && touched.sex && <p className="error">{errors.sex}</p>}
-                        </div>
-                        <div className="modal-edit__input__wrapper">
-                            <div className="modal-edit__input__label">Height (cm)</div>
-                            <input
-                                value={values.height}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                id="modal-edit__patient__height"
-                                type="text"
-                                className={errors.height && touched.height ? "modal-edit__input-error" : "modal-edit__input"}
-                                name="height" />
-                            {errors.height && touched.height && <p className="error">{errors.height}</p>}
-                        </div>
-                        <div className="modal-edit__input__wrapper">
-                            <div className="modal-edit__input__label">Weight (kg)</div>
-                            <input
-                                value={values.weight}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                id="modal-edit__patient__weight"
-                                type="text"
-                                className={errors.weight && touched.weight ? "modal-edit__input-error" : "modal-edit__input"}
-                                name="weight" />
-                            {errors.weight && touched.weight && <p className="error">{errors.weight}</p>}
-                        </div>
-                        <div className="modal-edit__input__wrapper">
-                            <div className="modal-edit__input__label">Email</div>
-                            <input
-                                value={values.email}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                id="modal-edit__patient__email"
-                                type="email"
-                                className={errors.email && touched.email ? "modal-edit__input-error" : "modal-edit__input"}
-                                name="email" />
-                            {errors.email && touched.email && <p className="error">{errors.email}</p>}
-                        </div>
-                        <div className="modal-edit__input__wrapper">
-                            <div className="modal-edit__input__label">Phone</div>
-                            <input
-                                value={values.phone}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                id="modal-edit__patient__phone"
-                                type="text"
-                                className={errors.phone && touched.phone ? "modal-edit__input-error" : "modal-edit__input"}
-                                name="phone" />
-                            {errors.phone && touched.phone && <p className="error">{errors.phone}</p>}
-                        </div>
-                    </div>
-                    <Button
-                        onClick={clickHandler}
-                        width="227px"
-                        height="50px"
-                        marginTop="60px"
-                        borderRadius="14px"
-                        bgColor="#25B39E"
-                        children="Submit"
-                        fontSize="20px" />
-                    <button onClick={(e) => { e.preventDefault(); setModalActive(false) }}>
-                        <img className="modal_close" src={closeIcon} alt="x" />
-                    </button>
-                </form>
+                        <Button
+                            onClick={clickHandler}
+                            width="227px"
+                            height="50px"
+                            marginTop="60px"
+                            borderRadius="14px"
+                            bgColor="#25B39E"
+                            children="Submit"
+                            disabled={isSubmitting}
+                            fontSize="20px" />
+                        <button onClick={(e) => { e.preventDefault(); setModalActive(false) }}>
+                            <img className="modal_close" src={closeIcon} alt="x" />
+                        </button>
+                    </Form>
+                )}
+            </Formik>
 
-            </Modal>
+        </Modal>
             <Modal active={modalRegisterActive} setActive={setModalRegisterActive}>
 
                 <form onSubmit={(e) => { handleRegister(e) }} className="modal-edit modal-edit__patient" action="">

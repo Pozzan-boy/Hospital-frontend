@@ -13,8 +13,44 @@ const initialState = {
     status: 'idle',
     error: null,
     doctor: {},
-    checkedList: []
-
+    checkedList: [],
+    specialitiesList: [
+        {
+            value: 'neurologist',
+            text: "Neurologist"
+        },
+        {
+            value: 'endocrinologists',
+            text: "Endocrinologists"
+        },
+        {
+            value: 'gastroenterologists',
+            text: "Gastroenterologists"
+        },
+        {
+            value: 'dermatologist',
+            text: "Dermatologist"
+        },
+        {
+            value: 'urologist',
+            text: "Urologist"
+        },
+        {
+            value: 'surgeon',
+            text: "Surgeon"
+        },
+        {
+            value: 'oncologist',
+            text: "Oncologist"
+        },
+        {
+            value: 'physiatrists',
+            text: "Physiatrists"
+        },
+        {
+            value: 'ophthalmologist',
+            text: "Ophthalmologist"
+        }]
 
 }
 

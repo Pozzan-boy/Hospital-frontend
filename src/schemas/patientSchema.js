@@ -13,7 +13,7 @@ export const patientSchema = yup.object().shape({
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required'),
-    sex: yup.string().min(2, 'Too short').required("Required"),
+    // sex: yup.string().min(2, 'Too short').required("Required"),
     height:  yup
         .number()
         .positive()
