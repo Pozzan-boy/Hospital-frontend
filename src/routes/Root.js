@@ -7,26 +7,28 @@ import AdminDoctorsRoute from "./Admin/AdminDoctorsRoute";
 import { Navigate } from "react-router-dom";
 import { redirect, useNavigate } from "react-router";
 import AdminPatientsRoute from "./Admin/AdminPatientsRoute";
+import { useEffect } from "react";
 const Root = () => {
     
     const role = useSelector(state => state.account.role);
     const navigate = useNavigate();
-    const render = () => {
+
+    useEffect(() => {
         switch(role) {
             case 'admin':
                 return navigate("/admin");
             case 'doctor':
                 return  navigate("/doctor");
             case 'patient':
-                return  navigate("/patient") ;
+                return navigate("/patient") ;
             default:
                 return <NotLoginRoute />
         }
-    }
+    }, [role]);
 
     return(
         <>
-            {render()}
+            
         </>
     )
 }

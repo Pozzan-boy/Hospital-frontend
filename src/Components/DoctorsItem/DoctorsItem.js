@@ -1,4 +1,3 @@
-
 import "./DoctorsItem.scss";
 import { useEffect, useState, useCallback, useRef} from "react";
 import { useSelector, useDispatch } from "react-redux";

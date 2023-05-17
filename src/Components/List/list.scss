@@ -44,3 +44,20 @@
 #patient-header-birthDate{
     margin-left: 50px;
 }
+#ward-header {
+    &-number {
+        margin-left: 10px;
+    }
+    &-floor {
+        margin-left: 120px;
+    }
+    &-department {
+        margin-left: 220px;
+    }
+    &-purpose {
+        margin-left: 200px;  
+    }
+    &-placeCount {
+        margin-left: 280px;
+    }
+}
