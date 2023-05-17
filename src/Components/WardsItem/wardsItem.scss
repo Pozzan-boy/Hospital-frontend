@@ -1,4 +1,4 @@
-.wardItem{
+.ward{
     width: 100%;
     height: 80px;
     display: flex;
@@ -32,6 +32,9 @@
     &__placeCount{
         width: 70px;
         margin-left: 140px;
+    }
+    &__chief {
+        margin-left: 100px;
     }
     &__change{
         margin-left: 30px;

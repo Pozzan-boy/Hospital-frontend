@@ -25,6 +25,7 @@ const AdminWardsRoute = () => {
                 deleteItemsMany={deleteWardsMany}
                 postItemFunc={postWard}
                 itemSchema={wardSchema}
+                tableName={'ward'}
                 itemName={'ward'}
                 clearCheckBoxes={clearCheckedList}
             />

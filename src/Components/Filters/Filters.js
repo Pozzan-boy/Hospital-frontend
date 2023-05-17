@@ -4,9 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useMemo } from "react";
 import deleteIcon from "../../assets/icons/delete.svg";
 import ModalAddDoctor from "../ModalAddWindow/ModalAddDoctor";
+import ModalAddWard from "../ModalAddWindow/ModalAddWard";
 import clearIcon from "../../assets/icons/clear-all.svg";
 import "./filters.scss";
 import ModalAddPatient from "../ModalAddWindow/ModalAddPatient";
+import axios from "axios";
 
 
 const Filters = (props) => {
@@ -57,8 +59,15 @@ const Filters = (props) => {
                         modalActive={modalActive}
                     />
                 )
-                default:
-                    return(<h2>No modal windows were found</h2>)
+            case "ward":
+                return(
+                    <ModalAddWard
+                        setModalActive={setModalActive}
+                        modalActive={modalActive}
+                    />
+                )
+            default:
+                return(<h2>No modal windows were found</h2>)
         }
          
     }

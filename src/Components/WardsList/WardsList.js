@@ -39,7 +39,11 @@ const WardsList = () => {
         dispatch(fetchWards([token, wardsPerPage, itemOffset]));
 
         dispatch(getWardsCount(token));
-    }, [token])
+
+    }, [token]);
+    useEffect(() => {
+        dispatch(fetchWards([token, wardsPerPage, itemOffset]));
+    }, [wardsCount]);
     const handlePageClick = (event) => {
         dispatch(setCurrentPage(event.selected + 1));
         const newOffset = (event.selected * wardsPerPage) % wardsCount;
@@ -115,6 +119,7 @@ const WardsList = () => {
                     <div id="ward-header-department" className="list__headers__item">Department</div>
                     <div id="ward-header-purpose" className="list__headers__item">Purpose</div>
                     <div id="ward-header-placeCount" className="list__headers__item">Place count</div>
+                    <div id="ward-header-chief" className="list__headers__item">Chief</div>
                 </div>
 
                 {elements}
