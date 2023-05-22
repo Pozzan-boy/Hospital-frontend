@@ -1,0 +1,80 @@
+.healingsList__wrapper{
+    width: 1400px;
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 18px;
+    
+}
+.healingsList__headers{
+    width: 100%;    
+    display: flex;
+    align-items:center;
+    margin-left: 70px;
+    &__number{
+        width: 220px;
+        color: var(--main-text-color);
+        margin-left: 31px;
+    }
+    &__floor{
+        width: 160px;
+        color: var(--main-text-color);
+        margin-left: 54px;
+    }
+    &__department{
+        width: 160px;
+        color: var(--main-text-color);
+        margin-left: 130px;
+    }
+    &__purpose{
+        width: 140px;
+        color: var(--main-text-color);
+        margin-left: 120px;
+    }
+    &__placeCount{
+        width: 70px;
+        color: var(--main-text-color);
+        margin-left: 140px;
+    }
+    &__chief {
+        width: 70px;
+        color: var(--main-text-color);
+        margin-left: 140px;
+    }
+}
+
+#healing-header-patient {
+    width: 100px;
+    color: var(--main-text-color);
+    margin-left: 31px;
+}
+#healing-header-doctor {
+    width: 100px;
+    color: var(--main-text-color);
+    margin-left: 100px;
+}
+#healing-header-diagnos {
+    width: 200px;
+    color: var(--main-text-color);
+    margin-left: 120px;
+}
+#healing-header-date {
+    width: 100px;
+    color: var(--main-text-color);
+    margin-left: 60px;
+}
+#healing-header-status {
+    width: 100px;
+    color: var(--main-text-color);
+    margin-left: 50px;
+}
+#healing-header-preparations {
+    width: 200px;
+    color: var(--main-text-color);
+    margin-left: 120px;
+}
+#healing-header-ward {
+    width: 100px;
+    color: var(--main-text-color);
+    margin-left: 50px;
+}

@@ -5,13 +5,15 @@ import doctors from "../components/DoctorsList/DoctorsListSlice"
 import patients from "../components/PatientsList/PatientsListSlice"
 import patient from "../components/PatientPanelInfo/PatientSlice"
 import wards from '../components/WardsList/WardsListSlice'
+import healings from '../components/HealingsList/HealingsListSlice'
 
 const rootReducer = combineReducers({
     account: account,
     doctors: doctors,
     patients: patients,
     patient: patient,
-    wards: wards
+    wards: wards,
+    healings: healings
   });
 const store = configureStore({
     reducer: rootReducer,
