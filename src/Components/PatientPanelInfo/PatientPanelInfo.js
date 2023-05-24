@@ -34,7 +34,7 @@ const PatientPanelInfo = () => {
 
     return (
         <div className="patient-panel">
-            <PatientHeader name={name} surname={surname}/>
+            <PatientHeader name={name} surname={surname} active={'patient'} />
             <div className="patient-panel__list">
                 <DropDown type={'info'} img={userIcon} info='Personal info'>
                         <DropDownItem header={"Name"} value={name}/>

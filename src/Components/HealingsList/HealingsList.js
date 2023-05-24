@@ -9,6 +9,7 @@ import Button from "../Button/Button";
 import successIcon from "../../assets/icons/success.svg";
 import errorIcon from "../../assets/icons/alert-error.svg"
 import List from "../List/List";
+import axios from 'axios';
 
 const HealingsList = () => {
     const [modalMessageActive, setModalMessageActive] = useState(false);
@@ -21,7 +22,7 @@ const HealingsList = () => {
 
     }
 
-    const status = useSelector(state => state.wards.status)
+    const status = useSelector(state => state.healings.status)
     const { healings, error, healingsLoadingStatus, currentPage, healingsCount, checkedList } = useSelector(state => state.healings);
     const dispatch = useDispatch();
     const token = useSelector((state) => state.account.token);
@@ -29,16 +30,67 @@ const HealingsList = () => {
     let pageCount = Math.ceil(healingsCount / healingsPerPage);
     const [itemOffset, setItemOffset] = useState(0);
 
+    const [patients, setPatients] = useState([]);
+    const [doctors, setDoctors] = useState([]);
+    const [wards, setWards] = useState([]);
+
     useEffect(() => {
         dispatch(fetchHealings([token, healingsPerPage, itemOffset]));
 
         dispatch(getHealingsCount(token));
 
+        axios.get('/patient/getAllPatients', {
+            headers: {
+                Authorization: token
+            }
+        })
+            .then((res) => setPatients(res.data.map((item) => { console.log(res);return <option value={item._id}>{item.name}</option>})))
+            .catch((err) => console.log(err));
+
+        axios.get('/doctor/getAllDoctors', {
+            headers: {
+                Authorization: token
+            }
+        })
+            .then((res) => setDoctors(res.data.map((item) => <option value={item._id}>{item.name}</option>)))
+            .catch((err) => console.log(err));
+
+        axios.get('/ward/getAllWards', {
+            headers: {
+                Authorization: token
+            }
+        })
+            .then((res) => setWards(res.data.map((item) => <option value={item._id}>{item.number}</option>)))
+            .catch((err) => console.log(err))
     }, []);
     useEffect(() => {
         dispatch(fetchHealings([token, healingsPerPage, itemOffset]));
 
         dispatch(getHealingsCount(token));
+
+        axios.get('/patient/getAllPatients', {
+            headers: {
+                Authorization: token
+            }
+        })
+            .then((res) => setPatients(res.data.map((item) => { console.log(res);return <option value={item._id}>{item.name}</option>})))
+            .catch((err) => console.log(err));
+
+        axios.get('/doctor/getAllDoctors', {
+            headers: {
+                Authorization: token
+            }
+        })
+            .then((res) => setDoctors(res.data.map((item) => <option value={item._id}>{item.name}</option>)))
+            .catch((err) => console.log(err));
+
+        axios.get('/ward/getAllWards', {
+            headers: {
+                Authorization: token
+            }
+        })
+            .then((res) => setWards(res.data.map((item) => <option value={item._id}>{item.number}</option>)))
+            .catch((err) => console.log(err))
 
     }, [token]);
     useEffect(() => {
@@ -71,6 +123,9 @@ const HealingsList = () => {
             <HealingsItem
                 key={index}
                 setModalMessageActive={setModalMessageActive}
+                patients={patients}
+                doctors={doctors}
+                wards={wards}
                 {...props}/>
 
         )

@@ -205,7 +205,7 @@ const wardsSlice = createSlice({
         updateWardSuccess: (state, action) => {
             state.status = 'updated';
             const updatedItem = action.payload;
-
+            console.log(updatedItem);
             const index = state.wards.findIndex((item) => item._id === updatedItem._id);
             if (index !== -1) {
                 state.wards.splice(index, 1, updatedItem);

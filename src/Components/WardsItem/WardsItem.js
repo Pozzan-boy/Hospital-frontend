@@ -30,20 +30,8 @@ const WardsItem = (props) => {
     const token = useSelector(state => state.account.token);
     const checkedList = useSelector(state => state.wards.checkedList)
     const isChecked = checkedList.includes(props._id);
-    
-    const [chiefs, setChiefs] = useState([]);
-    useEffect(() => {
-        axios.get('/doctor/getAllDoctors', {
-            headers: {
-                Authorization: token
-            }
-        })
-            .then((res) => setChiefs(res.data.map((item) => <option value={item._id}>{item.name}</option>)))
-            .catch((err) => console.log(err))
-    }, [])
 
     useEffect(() => {
-
         if (checkedList.length === 0) {
             setCheckStatus(false);
 
@@ -55,7 +43,7 @@ const WardsItem = (props) => {
         setCheckStatus(isChecked);
     }, [props._id])
     const onSubmit = (values, actions) => {
-        const id = props._id;
+        const id = props._id; 
         const updatedItem = { ...values, token };
         console.log();
         dispatch(updateWard([updatedItem, token, id]));
@@ -117,7 +105,7 @@ const WardsItem = (props) => {
             <Modal active={modalActive} setActive={setModalActive}>
             <Formik
                 innerRef={formRef}
-                initialValues={{ number: props.number, floor:props.floor, department: props.department, purpose: props.purpose, placeCount: props.placeCount}}
+                initialValues={{ number: props.number, floor:props.floor, department: props.department, purpose: props.purpose, placeCount: props.placeCount, chief: props.chief._id}}
                 validationSchema={wardSchema}
                 onSubmit={onSubmit}>
                 {({ isSubmitting }) => (
@@ -159,7 +147,7 @@ const WardsItem = (props) => {
                             placeholder="Please select a chief"
                         >
                             <option value={props.chief._id}>{props.chief.name}</option>
-                            {chiefs}
+                            {props.doctors}
                         </CustomSelect>
                         <Button
                             onClick={clickHandler}

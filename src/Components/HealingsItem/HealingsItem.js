@@ -30,37 +30,6 @@ const HealingsItem = (props) => {
     const checkedList = useSelector(state => state.healings.checkedList)
     const isChecked = checkedList.includes(props._id);
     
-    const [patients, setPatients] = useState([]);
-    const [doctors, setDoctors] = useState([]);
-    const [wards, setWards] = useState([]);
-    useEffect(() => {
-        console.log(123);
-        axios.get('/patient/getAllPatients', {
-            headers: {
-                Authorization: token
-            }
-        })
-            .then((res) => setPatients(res.data.map((item) => { console.log(res);return <option value={item._id}>{item.name}</option>})))
-            .catch((err) => console.log(err));
-
-        axios.get('/doctor/getAllDoctors', {
-            headers: {
-                Authorization: token
-            }
-        })
-            .then((res) => setDoctors(res.data.map((item) => <option value={item._id}>{item.name}</option>)))
-            .catch((err) => console.log(err));
-
-        axios.get('/ward/getAllWards', {
-            headers: {
-                Authorization: token
-            }
-        })
-            .then((res) => setWards(res.data.map((item) => <option value={item._id}>{item.number}</option>)))
-            .catch((err) => console.log(err))
-    }, [])
-
-
     useEffect(() => {
 
         if (checkedList.length === 0) {
@@ -149,7 +118,7 @@ const HealingsItem = (props) => {
                             placeholder="Please select a patient"
                         >
                             <option value={props.patient._id}>{props.patient.name}</option>
-                            {patients}
+                            {props.patients}
                         </CustomSelect>
                         <CustomSelect
                             label="Doctor"
@@ -157,7 +126,7 @@ const HealingsItem = (props) => {
                             placeholder="Please select a doctor"
                         >
                             <option value={props.doctor._id}>{props.doctor.name}</option>
-                            {doctors}
+                            {props.doctors}
                         </CustomSelect>
                         <CustomInput
                             label="Diagnos"
@@ -201,7 +170,7 @@ const HealingsItem = (props) => {
                             placeholder="Please select a ward"
                         >
                             <option value={props?.ward._id}>{props?.ward.number}</option>
-                            {wards}
+                            {props.wards}
                         </CustomSelect>
                         <Button
                             onClick={clickHandler}

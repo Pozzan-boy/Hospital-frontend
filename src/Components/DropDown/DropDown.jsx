@@ -15,6 +15,18 @@ const DropDown = ({img, info, children,type}) =>{
                 case 'contacts':
                     div.style.height = '178px'
                     break
+                case 'instructions':
+                    div.style.height = '200px'
+                    break;
+                case 'preparations':
+                    div.style.height = '170px'
+                    break;
+                case 'doctor':
+                    div.style.height = '150px'
+                    break;
+                case 'ward':
+                    div.style.height = '170px'
+                    break;
                 default:
                     div.style.height = '256px'
             }

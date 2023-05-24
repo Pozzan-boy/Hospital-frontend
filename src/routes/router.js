@@ -13,6 +13,7 @@ import AdminHealingsRoute from './Admin/AdminHealingsRoute';
 import AdminRoute from './Admin/AdminRoute';
 import AdminWardsRoute from './Admin/AdminWardsRoute';
 import PatientPanelInfo from '../components/PatientPanelInfo/PatientPanelInfo';
+import PatientPanelHealing from '../components/PatientPanelHealing/PatientPanelHealing';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
     {
         path: '/patient',
         element: <PatientPanelInfo/>
+    },
+    {
+        path: '/patient/healing',
+        element: <PatientPanelHealing />
     },
     {
         path: '/login/admin',
