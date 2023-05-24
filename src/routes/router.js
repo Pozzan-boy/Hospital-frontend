@@ -9,9 +9,11 @@ import DoctorPanel from '../components/DoctorPanel/DoctorPanel';
 import AdminPanel from '../components/AdminPanel/AdminPanel';
 import AdminDoctorsRoute from './Admin/AdminDoctorsRoute';
 import AdminPatientsRoute from './Admin/AdminPatientsRoute';
+import AdminHealingsRoute from './Admin/AdminHealingsRoute';
 import AdminRoute from './Admin/AdminRoute';
 import AdminWardsRoute from './Admin/AdminWardsRoute';
 import PatientPanelInfo from '../components/PatientPanelInfo/PatientPanelInfo';
+import PatientPanelHealing from '../components/PatientPanelHealing/PatientPanelHealing';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -37,8 +39,17 @@ const router = createBrowserRouter([
         
     },
     {
+        path: '/admin/healings',
+        element: <AdminHealingsRoute/>
+        
+    },
+    {
         path: '/patient',
         element: <PatientPanelInfo/>
+    },
+    {
+        path: '/patient/healing',
+        element: <PatientPanelHealing />
     },
     {
         path: '/login/admin',

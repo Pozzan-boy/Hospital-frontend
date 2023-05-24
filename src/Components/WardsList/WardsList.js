@@ -9,6 +9,7 @@ import Button from "../Button/Button";
 import successIcon from "../../assets/icons/success.svg";
 import errorIcon from "../../assets/icons/alert-error.svg"
 import List from "../List/List";
+import axios from 'axios';
 
 const WardsList = () => {
     const [modalMessageActive, setModalMessageActive] = useState(false);
@@ -29,16 +30,36 @@ const WardsList = () => {
     let pageCount = Math.ceil(wardsCount / wardsPerPage);
     const [itemOffset, setItemOffset] = useState(0);
 
+    const [doctors, setDoctors] = useState([]);
+
     useEffect(() => {
         dispatch(fetchWards([token, wardsPerPage, itemOffset]));
 
         dispatch(getWardsCount(token));
+
+        axios.get('/doctor/getAllDoctors', {
+            headers: {
+                Authorization: token
+            }
+        })
+            .then((res) => setDoctors(res.data.map((item) => <option value={item._id}>{item.name}</option>)))
+            .catch((err) => console.log(err))
+            
 
     }, []);
+
     useEffect(() => {
         dispatch(fetchWards([token, wardsPerPage, itemOffset]));
 
         dispatch(getWardsCount(token));
+
+        axios.get('/doctor/getAllDoctors', {
+            headers: {
+                Authorization: token
+            }
+        })
+            .then((res) => setDoctors(res.data.map((item) => <option value={item._id}>{item.name}</option>)))
+            .catch((err) => console.log(err))
 
     }, [token]);
     useEffect(() => {
@@ -65,12 +86,14 @@ const WardsList = () => {
             )
         }
 
+
         return arr.map(({ ...props }, index) =>
         (
 
             <WardsItem
                 key={index}
                 setModalMessageActive={setModalMessageActive}
+                doctors={doctors}
                 {...props}/>
 
         )

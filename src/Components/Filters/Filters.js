@@ -8,6 +8,7 @@ import ModalAddWard from "../ModalAddWindow/ModalAddWard";
 import clearIcon from "../../assets/icons/clear-all.svg";
 import "./filters.scss";
 import ModalAddPatient from "../ModalAddWindow/ModalAddPatient";
+import ModalAddHealing from "../ModalAddWindow/ModalAddHealing";
 import axios from "axios";
 
 
@@ -62,6 +63,13 @@ const Filters = (props) => {
             case "ward":
                 return(
                     <ModalAddWard
+                        setModalActive={setModalActive}
+                        modalActive={modalActive}
+                    />
+                )
+            case "healing":
+                return(
+                    <ModalAddHealing
                         setModalActive={setModalActive}
                         modalActive={modalActive}
                     />

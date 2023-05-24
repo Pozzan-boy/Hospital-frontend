@@ -1,25 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from "axios";
 
-const baseUrl = "http://localhost:3001/ward/getAllWards";
-const addUrl = '/ward/add';
-const updateUrl = 'http://localhost:3001/ward/edit'
+const baseUrl = "http://localhost:3001/healing/getAllHealings";
+const addUrl = '/healing/add';
+const updateUrl = 'http://localhost:3001/healing/edit'
 const initialState = {
-    wards: [],
+    healings: [],
     currentPage: 1,
-    wardsLoadingStatus: 'idle',
-    searchedWards: "",
-    wardsCount: 0,
-    wardsCountStatus: 'idle',
+    healingsLoadingStatus: 'idle',
+    searchedHealings: "",
+    healingsCount: 0,
+    healingsCountStatus: 'idle',
     status: 'idle',
     error: null,
-    ward: {},
+    healing: {},
     checkedList: []
-
-
 }
 
-export const fetchWards = ([token, count, start]) => async (dispatch) => {
+export const fetchHealings = ([token, count, start]) => async (dispatch) => {
     try {
 
         const response = await axios.get(baseUrl, {
@@ -31,60 +29,60 @@ export const fetchWards = ([token, count, start]) => async (dispatch) => {
             }
         });
 
-        dispatch(fetchWardsSuccess(response.data));
+        dispatch(fetchHealingsSuccess(response.data));
 
     } catch (error) {
 
-        dispatch(fetchWardsFailure(error.message));
+        dispatch(fetchHealingsFailure(error.message));
     }
 };
 
-export const deleteWardItem = ([id, token]) => async (dispatch) => {
+export const deleteHealingItem = ([id, token]) => async (dispatch) => {
     try {
 
-        const response = await axios.delete(`/ward/delete/${id}`,
+        const response = await axios.delete(`/healing/delete/${id}`,
             {
                 headers: {
                     'authorization': token
                 }
             });
 
-        dispatch(deleteWardItemSuccess(response.data._id));
-        dispatch(getWardsCount(token));
+        dispatch(deleteHealingItemSuccess(response.data._id));
+        dispatch(getHealingsCount(token));
     } catch (error) {
 
-        dispatch(deleteWardItemFailure(error.message));
+        dispatch(deleteHealingItemFailure(error.message));
     }
 };
 
-export const deleteWardsMany = ({ checkedList, token }) => async (dispatch) => {
+export const deleteHealingsMany = ({ checkedList, token }) => async (dispatch) => {
     console.log(token);
 
     try {
 
-        const response = await axios.delete(`/ward/deleteMany/`,
+        const response = await axios.delete(`/healing/deleteMany/`,
             {
                 headers: {
                     'authorization': token
                 },
                 data: {
-                    wards: checkedList
+                    healings: checkedList
                 }
             }
         );
 
         // Dispatch success action with deleted item ID
-        dispatch(deleteWardsManySuccess(checkedList));
+        dispatch(deleteHealingsManySuccess(checkedList));
 
         console.log(response.data);
-        dispatch(getWardsCount(token));
+        dispatch(getHealingsCount(token));
     } catch (error) {
         console.log(error);
-        dispatch(deleteWardsManyFailure(error.message));
+        dispatch(deleteHealingsManyFailure(error.message));
     }
 };
 
-export const getWardsCount = (token) => async (dispatch) => {
+export const getHealingsCount = (token) => async (dispatch) => {
     try {
 
         const response = await axios.get(baseUrl, {
@@ -93,39 +91,42 @@ export const getWardsCount = (token) => async (dispatch) => {
             }
         });
 
-        dispatch(getWardsCountSuccess(response.data.length));
+        dispatch(getHealingsCountSuccess(response.data.length));
 
     } catch (error) {
 
-        dispatch(fetchWardsFailure(error.message));
+        dispatch(fetchHealingsFailure(error.message));
     }
 };
 
-export const postWard = ({ id, token, number, floor, department, purpose, placeCount, chief=undefined }) => async (dispatch) => {
+export const postHealing = ({ id, token, patient, doctor, dignos, diagnosDescription, date, healingInstruction, status, preparations=undefined, ward=undefined }) => async (dispatch) => {
 
     try {
         const post = await axios.post(addUrl, {
-            number,
-            floor,
-            department,
-            purpose,
-            placeCount,
-            chief,
+            patient,
+            doctor,
+            dignos,
+            diagnosDescription,
+            date,
+            healingInstruction,
+            status,
+            preparations,
+            ward
         }, {
             headers: {
                 Authorization: token
             }
         });
 
-        dispatch(wardCreatedSuccess(post.data));
-        dispatch(getWardsCount(token));
+        dispatch(healingCreatedSuccess(post.data));
+        dispatch(getHealingsCount(token));
     } catch (error) {
 
-        dispatch(wardCreatedFailure(error.message));
+        dispatch(healingCreatedFailure(error.message));
     }
 };
 
-export const updateWard = ([item, token, id]) => async (dispatch) => {
+export const updateHealing = ([item, token, id]) => async (dispatch) => {
     try {
         // Make API call to delete item
         const response = await axios.put(`${updateUrl}/${id}`, item,
@@ -136,25 +137,25 @@ export const updateWard = ([item, token, id]) => async (dispatch) => {
             });
 
         // let doctors = useSelector(state => state.doctors.doctors);
-        dispatch(updateWardSuccess(response.data));
+        dispatch(updateHealingSuccess(response.data));
     } catch (error) {
-        dispatch(updateWardFailure(error.message));
+        dispatch(updateHealingFailure(error.message));
     }
 };
 
-const wardsSlice = createSlice({
-    name: 'wards',
+const healingsSlice = createSlice({
+    name: 'healings',
     initialState,
     reducers: {
-        fetchWardsSuccess: (state, action) => {
+        fetchHealingsSuccess: (state, action) => {
             // Update the state to remove the deleted item
-            state.wardsLoadingStatus = 'idle';
+            state.healingsLoadingStatus = 'idle';
 
-            state.wards = action.payload.map(item => ({ ...item, isSelected: false }))
+            state.healings = action.payload.map(item => ({ ...item, isSelected: false }))
 
         },
-        fetchWardsFailure: (state, action) => {
-            state.wardsLoadingStatus = 'error';
+        fetchHealingsFailure: (state, action) => {
+            state.healingsLoadingStatus = 'error';
             if (action.error.message && action.payload === 404) {
                 state.error = 'The requested resource was not found on the server.';
             } else {
@@ -162,65 +163,65 @@ const wardsSlice = createSlice({
             }
         },
 
-        deleteWardItemSuccess: (state, action) => {
+        deleteHealingItemSuccess: (state, action) => {
             // Update the state to remove the deleted item
             const deletedItemId = action.payload;
             state.status = 'deleted';
-            state.wards = state.wards.filter(item => item._id !== deletedItemId);
+            state.healings = state.healings.filter(item => item._id !== deletedItemId);
 
         },
 
-        deleteWardItemFailure: (state, action) => {
+        deleteHealingItemFailure: (state, action) => {
             // Handle failure, e.g. show error message or set error state
             state.error = action.payload;
         },
-        deleteWardsManySuccess: (state, action) => {
+        deleteHealingsManySuccess: (state, action) => {
 
             state.status = 'deletedMany';
-            state.wards = state.wards.filter(item => !action.payload.includes(item._id));
+            state.healings = state.healings.filter(item => !action.payload.includes(item._id));
 
 
         },
-        deleteWardsManyFailure: (state, action) => {
+        deleteHealingsManyFailure: (state, action) => {
             // Handle failure, e.g. show error message or set error state
             state.error = action.payload;
         },
         setCurrentPage(state, action) {
             state.currentPage = action.payload;
         },
-        handleSearchWards(state, action) {
-            state.searchedWards = action.payload;
+        handleSearchHealings(state, action) {
+            state.searchedHealings = action.payload;
         },
 
-        wardCreatedSuccess: (state, action) => {
+        healingCreatedSuccess: (state, action) => {
 
             state.status = 'added';
-            state.ward = action.payload;
+            state.healing = action.payload;
         },
-        wardCreatedFailure: (state, action) => {
+        healingCreatedFailure: (state, action) => {
             state.status = 'failed';
             state.error = action.error.message;
         },
 
-        updateWardSuccess: (state, action) => {
+        updateHealingSuccess: (state, action) => {
             state.status = 'updated';
             const updatedItem = action.payload;
-            console.log(updatedItem);
-            const index = state.wards.findIndex((item) => item._id === updatedItem._id);
+
+            const index = state.healings.findIndex((item) => item._id === updatedItem._id);
             if (index !== -1) {
-                state.wards.splice(index, 1, updatedItem);
+                state.healings.splice(index, 1, updatedItem);
             }
         },
 
-        updateWardFailure: (state, action) => {
+        updateHealingFailure: (state, action) => {
             state.status = 'failed';
             state.error = action.error.message;
 
         },
-        getWardsCountSuccess: (state, action) => {
-            state.wardsCount = action.payload;
+        getHealingsCountSuccess: (state, action) => {
+            state.healingsCount = action.payload;
         },
-        getWardsCountFailure: (state, action) => {
+        getHealingsCountFailure: (state, action) => {
 
             state.error = action.payload;
         },
@@ -251,28 +252,28 @@ const wardsSlice = createSlice({
     }
 })
 
-const { actions, reducer } = wardsSlice;
+const { actions, reducer } = healingsSlice;
 export default reducer;
 export const {
     PageIncrement,
     PageDecrement,
     setCurrentPage,
-    handleSearchWards,
-    deleteWardItemSuccess,
-    deleteWardItemFailure,
+    handleSearchHealings,
+    deleteHealingItemSuccess,
+    deleteHealingItemFailure,
     searchByName,
-    fetchWardsSuccess,
-    fetchWardsFailure,
-    wardCreatedSuccess,
-    wardCreatedFailure,
-    updateWardSuccess,
+    fetchHealingsSuccess,
+    fetchHealingsFailure,
+    healingCreatedSuccess,
+    healingCreatedFailure,
+    updateHealingSuccess,
     addCheckedListItem,
-    updateWardFailure,
+    updateHealingFailure,
     setStatusIdle,
-    getWardsCountSuccess,
-    getWardsCountFailure,
+    getHealingsCountSuccess,
+    getHealingsCountFailure,
     removeCheckedListItem,
-    deleteWardsManySuccess,
-    deleteWardsManyFailure,
+    deleteHealingsManySuccess,
+    deleteHealingsManyFailure,
     clearCheckedList
 } = actions
