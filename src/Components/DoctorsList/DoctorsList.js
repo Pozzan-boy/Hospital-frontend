@@ -24,11 +24,16 @@ const DoctorsList = () => {
     }
 
     const status = useSelector(state => state.doctors.status)
+    const searchStatus = useSelector(state => state.doctors.searchStatus)
+    const searchedDoctors = useSelector(state => state.doctors.searchedDoctors)
+
     const { doctors, error, doctorsLoadingStatus, currentPage, doctorsCount, checkedList } = useSelector(state => state.doctors);
     const dispatch = useDispatch();
     const token = useSelector((state) => state.account.token);
     const doctorsPerPage = 5;
-    let pageCount = Math.ceil(doctorsCount / doctorsPerPage);
+    // let pageCount = Math.ceil(doctorsCount/doctorsPerPage);
+
+    let pageCount = Math.ceil(searchStatus === "searched" ? searchedDoctors.length/doctorsPerPage : doctorsCount/doctorsPerPage);
     const [itemOffset, setItemOffset] = useState(0);
 
     useEffect(() => {
@@ -57,30 +62,68 @@ const DoctorsList = () => {
     } else if (doctorsLoadingStatus === "error") {
         return <h5 className="text-center mt-5">Loading error</h5>
     }
+    // const renderDoctorsList = (arr) => {
+    //     if (arr.length === 0 && doctorsCount === 0) {
+    //         return (
+    //             <h5 className="text-center mt-5">No Doctors found</h5>
+    //         )
+    //     }
+
+
+    //     return arr.map(({ ...props }, index) =>
+    //     (
+
+    //         <DoctorsItem
+    //             key={props._id}
+    //             setModalMessageActive={setModalMessageActive}
+    //             {...props} />
+
+    //     )
+
+
+    //     )
+
+
+
+    // }
     const renderDoctorsList = (arr) => {
+        const doctorsToRender = searchStatus === "searched" ? searchedDoctors : doctors;
+        const startIndex = itemOffset;
+        const endIndex = itemOffset + doctorsPerPage;
+        const slicedDoctors = doctorsToRender.slice(startIndex, endIndex);
         if (arr.length === 0 && doctorsCount === 0) {
             return (
                 <h5 className="text-center mt-5">No Doctors found</h5>
+            );
+        }
+        if (searchStatus !== 'searched') {
+            return arr.map(({ ...props }, index) =>
+            (
+
+                <DoctorsItem
+                    key={props._id}
+                    setModalMessageActive={setModalMessageActive}
+                    {...props} />
+
             )
+                
+
+            )
+        }else{
+            return slicedDoctors.map(({ ...props }, index) => (
+                <DoctorsItem
+                    key={props._id}
+                    setModalMessageActive={setModalMessageActive}
+                    {...props}
+                />
+            ));
         }
 
+        
 
-        return arr.map(({ ...props }, index) =>
-        (
+        
+    };
 
-            <DoctorsItem
-                key={props._id}
-                setModalMessageActive={setModalMessageActive}
-                {...props} />
-
-        )
-
-
-        )
-
-
-
-    }
     const elements = renderDoctorsList(doctors);
     let statusIcon = 0;
     let statusMessage = '';

@@ -7,13 +7,50 @@ const initialState = {
     doctors: [],
     currentPage: 1,
     doctorsLoadingStatus: 'idle',
-    searchedDoctors: "",
+    searchedDoctors: [],
     doctorsCount: 0,
     doctorsCountStatus: 'idle',
     status: 'idle',
+    searchStatus: 'idle',
     error: null,
+    doctorsPerPage: 5,
     doctor: {},
     checkedList: [],
+    selectSearchList:[
+        {
+            value: 'name',
+            text: "Name"
+        },
+        {
+            value: 'surname',
+            text: "Surname"
+        },
+        {
+            value: 'age',
+            text: "Age"
+        },
+        {
+            value: 'speciality',
+            text: "Speciality"
+        },
+        {
+            value: 'entryDate',
+            text: "Entry Date"
+        },
+        {
+            value: 'salary',
+            text: "Salary"
+        },
+        {
+            value: 'email',
+            text: "Email"
+        },
+        {
+            value: 'phone',
+            text: "Phone"
+        },
+       
+    ],
     specialitiesList: [
         {
             value: 'neurologist',
@@ -92,6 +129,29 @@ export const deleteDoctorItem = ([id, token]) => async (dispatch) => {
     } catch (error) {
 
         dispatch(deleteDoctorItemFailure(error.message));
+    }
+};
+
+
+export const searchDoctorItem = ([token, search]) => async (dispatch) => {
+    console.log({token,search})
+    try {
+
+        const response = await axios.get(`/doctor/find`,{
+            params:{
+                ...search
+            },
+            headers: {
+                'authorization': token
+            },
+
+            
+        });
+        dispatch(searchDoctorsSuccess(response.data));
+        console.log(response.data)
+    } catch (error) {
+
+        dispatch(searchDoctorsFailure(error.message));
     }
 };
 export const deleteDoctorsMany = ({ checkedList, token }) => async (dispatch) => {
@@ -251,8 +311,17 @@ const doctorsSlice = createSlice({
         setCurrentPage(state, action) {
             state.currentPage = action.payload;
         },
-        handleSearchDoctors(state, action) {
+        searchDoctorsSuccess(state, action) {
+            state.searchStatus = "searched";
             state.searchedDoctors = action.payload;
+        },
+        setSearchIdle(state, action) {
+            state.searchStatus = "idle";
+            
+        },
+        searchDoctorsFailure(state, action) {
+            state.error = action.payload;
+            state.status = 'failed';
         },
 
         doctorCreatedSuccess: (state, action) => {
@@ -328,7 +397,8 @@ export const {
     PageIncrement,
     PageDecrement,
     setCurrentPage,
-    handleSearchDoctors,
+    searchDoctorsSuccess,
+    searchDoctorsFailure,
     deleteDoctorItemSuccess,
     deleteDoctorItemFailure,
     searchByName,
@@ -340,6 +410,7 @@ export const {
     doctorCreatedFailure,
     updateDoctorSuccess,
     addCheckedListItem,
+    setSearchIdle,
     updateDoctorFailure,
     setStatusIdle,
     getDoctorsCountSuccess,
