@@ -29,8 +29,12 @@ const Search = ({searchTypeList,fetchItems, itemsPerPage}) => {
             dispatch(fetchItems([token, itemsPerPage, itemOffset]));
 
         }else{
+            if(search.indexOf("+")!==-1 && searchType === "phone"){
+                const cutNumber = search;
+                searchData[searchType]=cutNumber.replace(/\D/g, '');
+            }
+            dispatch(searchDoctorItem([token, searchData]));
             
-            dispatch(searchDoctorItem([token, searchData]))
         }
         
 
