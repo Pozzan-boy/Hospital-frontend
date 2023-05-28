@@ -14,7 +14,20 @@ const initialState = {
     status: 'idle',
     error: null,
     healing: {},
-    checkedList: []
+    checkedList: [],
+    searchStatus:"idle",
+    wardsPerPage:5,
+    selectSearchList:[
+        {
+            value: 'diagnos',
+            text: "Diagnos"
+        },
+        {
+            value: 'date',
+            text: "Date"
+        },
+       
+    ]
 }
 
 export const fetchHealings = ([token, count, start]) => async (dispatch) => {
@@ -36,7 +49,27 @@ export const fetchHealings = ([token, count, start]) => async (dispatch) => {
         dispatch(fetchHealingsFailure(error.message));
     }
 };
+export const searchHealing = ([token, search]) => async (dispatch) => {
+    console.log({token,search})
+    try {
 
+        const response = await axios.get(`/healing/find`,{
+            params:{
+                ...search
+            },
+            headers: {
+                'authorization': token
+            },
+
+            
+        });
+        dispatch(searchHealingsSuccess(response.data));
+        console.log(response.data)
+    } catch (error) {
+
+        dispatch(searchHealingsFailure(error.message));
+    }
+};
 export const deleteHealingItem = ([id, token]) => async (dispatch) => {
     try {
 
@@ -162,6 +195,18 @@ const healingsSlice = createSlice({
                 state.error = action.payload.message;
             }
         },
+        searchHealingsSuccess(state, action) {
+            state.searchStatus = "searched";
+            state.searchedHealings = action.payload;
+        },
+        setSearchIdle(state, action) {
+            state.searchStatus = "idle";
+            
+        },
+        searchHealingsFailure(state, action) {
+            state.error = action.payload;
+            state.status = 'failed';
+        },
 
         deleteHealingItemSuccess: (state, action) => {
             // Update the state to remove the deleted item
@@ -275,5 +320,8 @@ export const {
     removeCheckedListItem,
     deleteHealingsManySuccess,
     deleteHealingsManyFailure,
-    clearCheckedList
+    clearCheckedList,
+    searchHealingsSuccess,
+    setSearchIdle,
+    searchHealingsFailure,
 } = actions

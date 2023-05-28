@@ -14,7 +14,33 @@ const initialState = {
     status: 'idle',
     error: null,
     ward: {},
-    checkedList: []
+    checkedList: [],
+    searchStatus:"idle",
+    wardsPerPage:5,
+    selectSearchList:[
+        {
+            value: 'number',
+            text: "Number"
+        },
+        {
+            value: 'floor',
+            text: "Floor"
+        },
+        {
+            value: 'department',
+            text: "Department"
+        },
+        {
+            value: 'purpose',
+            text: "Purpose"
+        },
+        {
+            value: 'placeCount',
+            text: "Place count"
+        },
+    
+       
+    ],
 
 
 }
@@ -38,7 +64,27 @@ export const fetchWards = ([token, count, start]) => async (dispatch) => {
         dispatch(fetchWardsFailure(error.message));
     }
 };
+export const searchWard = ([token, search]) => async (dispatch) => {
+    console.log({token,search})
+    try {
 
+        const response = await axios.get(`/ward/find`,{
+            params:{
+                ...search
+            },
+            headers: {
+                'authorization': token
+            },
+
+            
+        });
+        dispatch(searchWardsSuccess(response.data));
+        console.log(response.data)
+    } catch (error) {
+
+        dispatch(searchWardsFailure(error.message));
+    }
+};
 export const deleteWardItem = ([id, token]) => async (dispatch) => {
     try {
 
@@ -161,9 +207,20 @@ const wardsSlice = createSlice({
                 state.error = action.payload.message;
             }
         },
-
+        
+        searchWardsSuccess(state, action) {
+            state.searchStatus = "searched";
+            state.searchedWards = action.payload;
+        },
+        setSearchIdle(state, action) {
+            state.searchStatus = "idle";
+            
+        },
+        searchWardsFailure(state, action) {
+            state.error = action.payload;
+            state.status = 'failed';
+        },
         deleteWardItemSuccess: (state, action) => {
-            // Update the state to remove the deleted item
             const deletedItemId = action.payload;
             state.status = 'deleted';
             state.wards = state.wards.filter(item => item._id !== deletedItemId);
@@ -274,5 +331,8 @@ export const {
     removeCheckedListItem,
     deleteWardsManySuccess,
     deleteWardsManyFailure,
-    clearCheckedList
+    clearCheckedList,
+    searchWardsSuccess,
+    setSearchIdle,
+    searchWardsFailure
 } = actions

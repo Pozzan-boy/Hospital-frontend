@@ -23,7 +23,7 @@ const WardsList = () => {
     }
 
     const status = useSelector(state => state.wards.status)
-    const { wards, error, wardsLoadingStatus, currentPage, wardsCount, checkedList } = useSelector(state => state.wards);
+    const { wards, error, wardsLoadingStatus, currentPage, wardsCount, checkedList,searchStatus,searchedWards } = useSelector(state => state.wards);
     const dispatch = useDispatch();
     const token = useSelector((state) => state.account.token);
     const wardsPerPage = 5;
@@ -80,26 +80,38 @@ const WardsList = () => {
         return <h5 className="text-center mt-5">Loading error</h5>
     }
     const renderWardsList = (arr) => {
+        const wardsToRender = searchStatus === "searched" ? searchedWards : wards;
+        const startIndex = itemOffset;
+        const endIndex = itemOffset + wardsPerPage;
+        const slicedWards = wardsToRender.slice(startIndex, endIndex);
         if (arr.length === 0 && wardsCount === 0) {
             return (
                 <h5 className="text-center mt-5">No Wards found</h5>
+            );
+        }
+        if (searchStatus !== 'searched') {
+            return arr.map(({ ...props }, index) =>
+            (
+
+                <WardsItem
+                    key={props._id}
+                    setModalMessageActive={setModalMessageActive}
+                    {...props} />
+
             )
+                
+
+            )
+        }else{
+            return slicedWards.map(({ ...props }, index) => (
+                <WardsItem
+                    key={props._id}
+                    setModalMessageActive={setModalMessageActive}
+                    {...props}
+                />
+            ));
         }
 
-
-        return arr.map(({ ...props }, index) =>
-        (
-
-            <WardsItem
-                key={index}
-                setModalMessageActive={setModalMessageActive}
-                doctors={doctors}
-                {...props}/>
-
-        )
-
-
-        )
 
     }
     const elements = renderWardsList(wards);

@@ -2,10 +2,9 @@ import "./search.scss";
 import searchIcon from "../../assets/icons/search.svg";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDoctors, searchDoctorItem,setSearchIdle } from "../DoctorsList/DoctorsListSlice";
 import CustomSearchSelect from "../ModalAddWindow/CustomSearchSelect";
 
-const Search = ({searchTypeList,fetchItems, itemsPerPage}) => {
+const Search = ({searchTypeList,fetchItems, itemsPerPage, searchItems, setSearchIdle}) => {
     const [search, setSearch] = useState("");
     const numTypes =["age", "salary" , "height", "weight", "placeCount", "number", "floor"]
     const dateTypes =["entryDate", "date" , "birthDate"]
@@ -21,7 +20,7 @@ const Search = ({searchTypeList,fetchItems, itemsPerPage}) => {
         searchData[searchType]=search;
         event.preventDefault();
         console.log(search, searchType);
-        
+        console.log(searchData);
         const itemOffset= 0;
         setSearch(numTypes.indexOf(searchType)!==-1? +search:search)
         if(search===''){
@@ -33,7 +32,7 @@ const Search = ({searchTypeList,fetchItems, itemsPerPage}) => {
                 const cutNumber = search;
                 searchData[searchType]=cutNumber.replace(/\D/g, '');
             }
-            dispatch(searchDoctorItem([token, searchData]));
+            dispatch(searchItems([token, searchData]));
             
         }
         

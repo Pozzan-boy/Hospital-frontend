@@ -3,13 +3,15 @@ import AdminHeader from '../../components/AdminHeader/AdminHeader'
 import Filters from '../../components/Filters/Filters'
 import PatientsList from '../../components/PatientsList/PatientList';
 import { useSelector, useDispatch } from "react-redux";
-import { deletePatientsMany, postPatient,clearCheckedList } from "../../components/PatientsList/PatientsListSlice";
+import { deletePatientsMany, postPatient,clearCheckedList, fetchPatients, searchPatient,setSearchIdle } from "../../components/PatientsList/PatientsListSlice";
 import { patientSchema } from "../../schemas/patientSchema";
 
 
 const AdminPatientsRoute = () => {
     const { patientsCount, checkedList } = useSelector((state) => state.patients);
-    const inputs = ["name", "surname", "birthDate", "sex", "height", "weight", "email", "phone"]
+    const inputs = ["name", "surname", "birthDate", "sex", "height", "weight", "email", "phone"];
+    const searchTypeList = useSelector(state=> state.patients.selectSearchList);
+    const itemsPerPage = useSelector(state=> state.patients.doctorsPerPage);
     return (
         <div className="admin-panel">
             <AdminHeader role={"patient"}/>
@@ -22,6 +24,11 @@ const AdminPatientsRoute = () => {
                 itemSchema={patientSchema}
                 tableName={'patient'}
                 clearCheckBoxes={clearCheckedList}
+                searchTypeList={searchTypeList}
+                fetchItems={fetchPatients}
+                itemsPerPage={itemsPerPage}
+                searchItems={searchPatient}
+                setSearchIdle={setSearchIdle}
             />
             <PatientsList />
         </div>

@@ -3,7 +3,7 @@ import Filters from '../../components/Filters/Filters'
 import DoctorsList from '../../components/DoctorsList/DoctorsList'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux";
-import { deleteDoctorsMany, postDoctor,clearCheckedList, fetchDoctors } from "../../components/DoctorsList/DoctorsListSlice";
+import { deleteDoctorsMany, postDoctor,clearCheckedList, fetchDoctors, setSearchIdle, searchDoctorItem } from "../../components/DoctorsList/DoctorsListSlice";
 import { doctorSchema } from "../../schemas/doctorSchema";
 import AdminPanel from '../../components/AdminPanel/AdminPanel';
 import { useNavigate } from 'react-router-dom';
@@ -28,9 +28,11 @@ const AdminDoctorsRoute = () => {
                 itemSchema={doctorSchema}
                 tableName={'doctor'}
                 clearCheckBoxes={clearCheckedList}
+                setSearchIdle={setSearchIdle}
                 searchTypeList={searchTypeList}
                 fetchItems={fetchDoctors}
                 itemsPerPage={itemsPerPage}
+                searchItems={searchDoctorItem}
             />
             <DoctorsList />
         </div>
