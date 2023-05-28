@@ -12,6 +12,7 @@ import ModalAddHealing from "../ModalAddWindow/ModalAddHealing";
 import axios from "axios";
 
 
+
 const Filters = (props) => {
     const { listCount,
         checkedList,
@@ -21,11 +22,12 @@ const Filters = (props) => {
         postItemFunc,
         itemSchema,
         tableName } = props
-        console.log(tableName);
+       
     const token = useSelector((state) => state.account.token);
     const [modalActive, setModalActive] = useState(false);
     const [modalActive2, setModalActive2] = useState(false);
     const isManyBtnDisabled = useMemo(() => checkedList.length === 0, [checkedList]);
+    
     const dispatch = useDispatch();
 
     const clickHandler = () => {
@@ -92,9 +94,10 @@ const Filters = (props) => {
                 <span id="users_count">{listCount}</span>
                 <span id="users_type">{`${tableName}s`}</span>
             </div>
-            <Search />
+            <Search searchItems ={props.searchItems} itemsPerPage={props.itemsPerPage} searchTypeList={props.searchTypeList} fetchItems={props.fetchItems} setSearchIdle={props.setSearchIdle}/>
             <button onClick={deleteMany} id="delete-many-btn" disabled={isManyBtnDisabled}>
                 <img src={deleteIcon} alt="" />
+                
             </button>
             <button onClick={CheckBoxes} id="clear-many" disabled={isManyBtnDisabled}>
                 <img src={clearIcon} alt="" />

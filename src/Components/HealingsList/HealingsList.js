@@ -23,7 +23,7 @@ const HealingsList = () => {
     }
 
     const status = useSelector(state => state.healings.status)
-    const { healings, error, healingsLoadingStatus, currentPage, healingsCount, checkedList } = useSelector(state => state.healings);
+    const { healings, error, healingsLoadingStatus, currentPage, healingsCount, checkedList,searchStatus,searchedHealings } = useSelector(state => state.healings);
     const dispatch = useDispatch();
     const token = useSelector((state) => state.account.token);
     const healingsPerPage = 5;
@@ -111,16 +111,22 @@ const HealingsList = () => {
         return <h5 className="text-center mt-5">Loading error</h5>
     }
     const renderHealingsList = (arr) => {
+        const healingsToRender = searchStatus === "searched" ? searchedHealings : healings;
+        const startIndex = itemOffset;
+        const endIndex = itemOffset + healingsPerPage;
+        const slicedHealings = healingsToRender.slice(startIndex, endIndex);
+        
         if (arr.length === 0 && healingsCount === 0) {
             return (
                 <h5 className="text-center mt-5">No Healings found</h5>
             )
         }
         console.log(arr);
-        return arr.map(({ ...props }, index) =>
-        (
+        if (searchStatus !== 'searched') {
+            return arr.map(({ ...props }, index) =>
+            (
 
-            <HealingsItem
+                <HealingsItem
                 key={index}
                 setModalMessageActive={setModalMessageActive}
                 patients={patients}
@@ -128,10 +134,26 @@ const HealingsList = () => {
                 wards={wards}
                 {...props}/>
 
-        )
+            )
+                
 
+            )
+        }else{
+            return slicedHealings.map(({ ...props }, index) => (
+                <HealingsItem
+                key={index}
+                setModalMessageActive={setModalMessageActive}
+                patients={patients}
+                doctors={doctors}
+                wards={wards}
+                {...props}/>
 
-        )
+            ));
+        }
+        
+        
+
+        
 
     }
     const elements = renderHealingsList(healings);

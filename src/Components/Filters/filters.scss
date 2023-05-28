@@ -108,13 +108,14 @@
 }
 #delete-many-btn{
     border: none;
+    position: relative;
     border-radius: 10%;
     width: 50px;
     height: 50px;
     background: none;
-    border: 2px solid rgba(37, 179, 158, 1);
+    // border: 2px solid rgba(37, 179, 158, 1);
     transition: all 0.1s ease;
-
+   
     img{
         height: 100%;
         transition: all 0.1s ease-out;
@@ -127,7 +128,7 @@
     &:disabled{
         cursor:auto;
         border: none;
-        border: 2px solid rgba(37, 179, 158, 0);
+        // border: 2px solid rgba(37, 179, 158, 0);
         background-color: none;
         img{
             filter: invert(63%) sepia(11%) saturate(222%) hue-rotate(163deg) brightness(89%) contrast(90%);

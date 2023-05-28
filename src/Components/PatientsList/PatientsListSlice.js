@@ -7,13 +7,50 @@ const initialState = {
     patients: [],
     currentPage: 1,
     patientsLoadingStatus: 'idle',
-    searchedPatients: "",
+    searchedPatients: [],
     patientsCount: 0,
     patientsCountStatus: 'idle',
     status: 'idle',
     error: null,
     patient: {},
     checkedList: [],
+    searchStatus:"idle",
+    doctorsPerPage:5,
+    selectSearchList:[
+        {
+            value: 'name',
+            text: "Name"
+        },
+        {
+            value: 'surname',
+            text: "Surname"
+        },
+        {
+            value: 'birthDate',
+            text: "Birth Date"
+        },
+        {
+            value: 'sex',
+            text: "Sex"
+        },
+        {
+            value: 'height',
+            text: "Height"
+        },
+        {
+            value: 'height',
+            text: "Weight"
+        },
+        {
+            value: 'email',
+            text: "Email"
+        },
+        {
+            value: 'phone',
+            text: "Phone"
+        },
+       
+    ],
     sexList:[
         {
             value: 'Male',
@@ -49,7 +86,27 @@ export const fetchPatients = ([token, count, start]) => async (dispatch) => {
     }
 };
 
+export const searchPatient = ([token, search]) => async (dispatch) => {
+    console.log({token,search})
+    try {
 
+        const response = await axios.get(`/patient/find`,{
+            params:{
+                ...search
+            },
+            headers: {
+                'authorization': token
+            },
+
+            
+        });
+        dispatch(searchPatientsSuccess(response.data));
+        console.log(response.data)
+    } catch (error) {
+
+        dispatch(searchPatientsFailure(error.message));
+    }
+};
 export const deletePatient = ([id, token]) => async (dispatch) => {
     try {
         // Make API call to delete item
@@ -226,6 +283,18 @@ const patientsSlice = createSlice({
         setCurrentPage(state, action) {
             state.currentPage = action.payload;
         },
+        searchPatientsSuccess(state, action) {
+            state.searchStatus = "searched";
+            state.searchedPatients = action.payload;
+        },
+        setSearchIdle(state, action) {
+            state.searchStatus = "idle";
+            
+        },
+        searchPatientsFailure(state, action) {
+            state.error = action.payload;
+            state.status = 'failed';
+        },
         handleSearchPatients(state, action) {
             state.searchedPatients = action.payload;
         },
@@ -309,9 +378,12 @@ export const {
     searchByName,
     registerPatientSuccess,
     registerPatientFailure,
+    setSearchIdle,
     fetchPatientsSuccess,
     fetchPatientsFailure,
     patientCreatedSuccess,
+    searchPatientsSuccess,
+    searchPatientsFailure,
     patientCreatedFailure,
     updatePatientSuccess,
     addCheckedListItem,

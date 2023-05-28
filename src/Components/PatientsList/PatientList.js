@@ -23,11 +23,11 @@ const PatientsList = () => {
 
     }
 
-    const { status, patients, error, patientsLoadingStatus, currentPage, patientsCount, checkedList } = useSelector(state => state.patients);
+    const { status, patients, error, patientsLoadingStatus, currentPage, patientsCount, checkedList,searchStatus,searchedPatients } = useSelector(state => state.patients);
     const dispatch = useDispatch();
     const token = useSelector((state) => state.account.token);
     const patientsPerPage = 5;
-    let pageCount = Math.ceil(patientsCount / patientsPerPage);
+    let pageCount = Math.ceil(searchStatus === "searched" ? searchedPatients.length/patientsPerPage : patientsCount/patientsPerPage);
     const [itemOffset, setItemOffset] = useState(0);
 
     useEffect(() => {
@@ -57,26 +57,65 @@ const PatientsList = () => {
     } else if (patientsLoadingStatus === "error") {
         return <h5 className="text-center mt-5">Loading error</h5>
     }
+    // const renderPatientsList = (arr) => {
+    //     if (arr.length === 0 && patientsCount === 0) {
+    //         return (
+    //             <h5 className="text-center mt-5">No Patients found</h5>
+    //         )
+    //     }
+
+
+    //     return arr.map(({ ...props }, index) =>
+    //     (
+
+    //         <Patient
+    //             key={props._id}
+    //             setModalMessageActive={setModalMessageActive}
+    //             {...props} />
+
+    //     )
+    //     )
+
+    // }
+
     const renderPatientsList = (arr) => {
+        const patientsToRender = searchStatus === "searched" ? searchedPatients : patients;
+        const startIndex = itemOffset;
+        const endIndex = itemOffset + patientsPerPage;
+        const slicedPatients = patientsToRender.slice(startIndex, endIndex);
         if (arr.length === 0 && patientsCount === 0) {
             return (
                 <h5 className="text-center mt-5">No Patients found</h5>
+            );
+        }
+        if (searchStatus !== 'searched') {
+            return arr.map(({ ...props }, index) =>
+            (
+
+                <Patient
+                    key={props._id}
+                    setModalMessageActive={setModalMessageActive}
+                    {...props} />
+
             )
+                
+
+            )
+        }else{
+            return slicedPatients.map(({ ...props }, index) => (
+                <Patient
+                    key={props._id}
+                    setModalMessageActive={setModalMessageActive}
+                    {...props}
+                />
+            ));
         }
 
+        
 
-        return arr.map(({ ...props }, index) =>
-        (
+        
+    };
 
-            <Patient
-                key={props._id}
-                setModalMessageActive={setModalMessageActive}
-                {...props} />
-
-        )
-        )
-
-    }
     const elements = renderPatientsList(patients);
     let statusIcon = 0;
     let statusMessage = '';
