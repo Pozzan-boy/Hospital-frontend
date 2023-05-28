@@ -1,7 +1,7 @@
 import Search from "../Search/Search";
 import Button from "../Button/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import deleteIcon from "../../assets/icons/delete.svg";
 import ModalAddDoctor from "../ModalAddWindow/ModalAddDoctor";
 import ModalAddWard from "../ModalAddWindow/ModalAddWard";
@@ -13,7 +13,9 @@ import axios from "axios";
 
 
 const Filters = (props) => {
+
     const { listCount,
+        currentDoctor,
         checkedList,
         inputs,
         deleteItemsMany,
@@ -44,6 +46,7 @@ const Filters = (props) => {
         dispatch(deleteItemsMany(data));
 
     }
+
     const ReturnModalWindow = (props)=>{
         switch(props.tableName){
             case "doctor":
@@ -68,10 +71,12 @@ const Filters = (props) => {
                     />
                 )
             case "healing":
+                console.log(currentDoctor);
                 return(
                     <ModalAddHealing
                         setModalActive={setModalActive}
                         modalActive={modalActive}
+                        currentDoctor={currentDoctor}
                     />
                 )
             default:

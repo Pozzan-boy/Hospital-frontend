@@ -11,6 +11,7 @@ import lock from '../../../assets/icons/lock.svg';
 import { Link, useNavigate } from "react-router-dom";
 import { accountFetched, accountFetching, accountFetchingError } from "../loginSlice";
 import axios from "axios";
+import { getDoctor, updateDoctorSuccess } from "../../DoctorsList/DoctorsListSlice";
 
 const DoctorLogin = () => {
 
@@ -36,7 +37,7 @@ const DoctorLogin = () => {
             localStorage.setItem('token', res.data.token);
             setStatusIcon(successIcon);
             setStatusMessage('Login succesful');
-            
+            dispatch(getDoctor({id: res.data._id, token: res.data.token}));
         })
         .catch(() => {
             dispatch(accountFetchingError())

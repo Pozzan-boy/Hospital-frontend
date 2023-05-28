@@ -13,22 +13,12 @@ const DoctorPanel = () => {
     return (
 
         <div className='doctor-panel'>
-            <div className="doctor-panel__header">
-                <Logo color='#A70505' variant='horizontal' width="82px" height="69px" />
-                <div className='doctor-panel__profile'>
-                    <div className="doctor-panel__profile__logo">
-                        <span>D</span>
-                    </div>
-                    <div className="doctor-panel__profile__name">
-                        Doctor
-                    </div>
-                </div>
-            </div>
             <div className="doctor-panel__info">
                 <Filters
                     listCount={patientsCount}
                     checkedList={checkedList}
                     inputs={inputs}
+                    tableName="patient"
                     deleteItemsMany={deletePatientsMany}
                     postItemFunc={postPatient}
                     itemSchema={patientSchema}
