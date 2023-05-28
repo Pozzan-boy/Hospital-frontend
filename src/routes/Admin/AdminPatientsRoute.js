@@ -11,7 +11,7 @@ const AdminPatientsRoute = () => {
     const { patientsCount, checkedList } = useSelector((state) => state.patients);
     const inputs = ["name", "surname", "birthDate", "sex", "height", "weight", "email", "phone"];
     const searchTypeList = useSelector(state=> state.patients.selectSearchList);
-    const itemsPerPage = useSelector(state=> state.patients.doctorsPerPage);
+    const itemsPerPage = useSelector(state=> state.patients.patientsPerPage);
     return (
         <div className="admin-panel">
             <AdminHeader role={"patient"}/>

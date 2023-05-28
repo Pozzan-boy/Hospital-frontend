@@ -99,7 +99,12 @@ const Filters = (props) => {
                 <span id="users_count">{listCount}</span>
                 <span id="users_type">{`${tableName}s`}</span>
             </div>
-            <Search searchItems ={props.searchItems} itemsPerPage={props.itemsPerPage} searchTypeList={props.searchTypeList} fetchItems={props.fetchItems} setSearchIdle={props.setSearchIdle}/>
+            <Search 
+                searchItems ={props.searchItems} 
+                itemsPerPage={props.itemsPerPage} 
+                searchTypeList={props.searchTypeList} 
+                fetchItems={props.fetchItems} 
+                setSearchIdle={props.setSearchIdle}/>
             <button onClick={deleteMany} id="delete-many-btn" disabled={isManyBtnDisabled}>
                 <img src={deleteIcon} alt="" />
                 
