@@ -11,6 +11,7 @@ const Search = ({searchTypeList,fetchItems, itemsPerPage, searchItems, setSearch
     const token = useSelector((state) => state.account.token);
     
     const [searchType, setSearchType] = useState(searchTypeList[0].value);
+    // const [searchType, setSearchType] = useState(['sdd','asdasd']);
     const dispatch = useDispatch();
     useEffect(()=>{
         setSearch('');

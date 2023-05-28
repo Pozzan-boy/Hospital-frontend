@@ -3,7 +3,7 @@ import Filters from '../../components/Filters/Filters'
 import HealingsList from '../../components/HealingsList/HealingsList'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux";
-import { deleteHealingsMany, postHealing,clearCheckedList, setSearchIdle, fetchHealings } from "../../components/HealingsList/HealingsListSlice";
+import { deleteHealingsMany, postHealing,clearCheckedList, setSearchIdle, fetchHealings, searchHealing } from "../../components/HealingsList/HealingsListSlice";
 import { healingSchema } from "../../schemas/healingSchema";
 import AdminPanel from '../../components/AdminPanel/AdminPanel';
 import { useNavigate } from 'react-router-dom';
@@ -35,7 +35,7 @@ const AdminHealingsRoute = () => {
                 setSearchIdle={setSearchIdle}
                 searchTypeList={searchTypeList}
                 fetchItems={fetchHealings}
-                searchItems={searchWard}
+                searchItems={searchHealing}
                 itemsPerPage={itemsPerPage}
             />
             <HealingsList />

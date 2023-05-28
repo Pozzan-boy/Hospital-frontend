@@ -181,7 +181,7 @@ export const updateWard = ([item, token, id]) => async (dispatch) => {
                 }
             });
 
-        // let doctors = useSelector(state => state.doctors.doctors);
+        
         dispatch(updateWardSuccess(response.data));
     } catch (error) {
         dispatch(updateWardFailure(error.message));

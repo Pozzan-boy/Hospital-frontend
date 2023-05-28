@@ -15,7 +15,7 @@ const initialState = {
     patient: {},
     checkedList: [],
     searchStatus:"idle",
-    doctorsPerPage:5,
+    patientsPerPage:5,
     selectSearchList:[
         {
             value: 'name',
