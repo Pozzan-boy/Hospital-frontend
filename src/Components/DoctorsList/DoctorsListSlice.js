@@ -113,6 +113,18 @@ export const fetchDoctors = ([token, count, start]) => async (dispatch) => {
     }
 };
 
+export const getDoctor = ({id, token}) => async (dispatch) => {
+    try {
+        const res = await axios.get(`/doctor/${id}`, {
+            headers: {
+                'authorization': token
+            }
+        });
+        dispatch(doctorCreatedSuccess(res.data));
+    } catch (err) {
+        dispatch(deleteDoctorItemFailure(err.message));
+    }
+}
 
 export const deleteDoctorItem = ([id, token]) => async (dispatch) => {
     try {

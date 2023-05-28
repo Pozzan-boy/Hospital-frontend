@@ -34,14 +34,19 @@ const ModalAddHealing = (props) => {
             .then((res) => setPatients(res.data.map((item) => <option value={item._id}>{item.name}</option>)))
             .catch((err) => console.log(err));
 
-        axios.get('/doctor/getAllDoctors', {
-            headers: {
-                Authorization: token
-            }
-        })
-            .then((res) => setDoctors(res.data.map((item) => <option value={item._id}>{item.name}</option>)))
-            .catch((err) => console.log(err));
-
+            console.log(props?.currentDoctor);
+        if (props?.currentDoctor === undefined) {
+            axios.get('/doctor/getAllDoctors', {
+                headers: {
+                    Authorization: token
+                }
+            })
+                .then((res) => setDoctors(res.data.map((item) => <option value={item._id}>{item.name}</option>)))
+                .catch((err) => console.log(err));
+        } else {
+            setDoctors(<option value={props.currentDoctor._id}>{props.currentDoctor.name}</option>)
+        }
+        
         axios.get('/ward/getAllWards', {
             headers: {
                 Authorization: token

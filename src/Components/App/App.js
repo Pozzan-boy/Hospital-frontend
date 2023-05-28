@@ -5,6 +5,7 @@ import router from '../../routes/router';
 import { accountFetching, accountFetched, accountFetchingError } from '../Login/loginSlice';
 
 import './app.scss';
+import { getDoctor } from '../DoctorsList/DoctorsListSlice';
 
 axios.defaults.baseURL = 'http://localhost:3001';
 
@@ -22,6 +23,9 @@ const App = () => {
             .then(res => {
                 dispatch(accountFetched(res.data));
                 localStorage.setItem('token', res.data.token);
+                if (res.data.role === 'doctor') {
+                    dispatch(getDoctor({id: res.data.key, token: res.data.token}));
+                }
             })
             .catch(() => dispatch(accountFetchingError()));
     }
