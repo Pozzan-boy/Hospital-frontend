@@ -1,10 +1,8 @@
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import CustomInput from "./CustomInput";
-import CustomSelect from "./CustomSelect";
 import CustomRadioButton from "./CustomRadioButton";
 import closeIcon from "../../assets/icons/close.svg";
 import { patientSchema } from "../../schemas/patientSchema";

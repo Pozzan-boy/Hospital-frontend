@@ -1,9 +1,8 @@
-import DoctorHeader from '../../components/DoctorHeader/DoctorHeader'
-import Filters from '../../components/Filters/Filters'
+import DoctorHeader from '../../components/DoctorHeader/DoctorHeader';
+import Filters from '../../components/Filters/Filters';
 import PatientsList from '../../components/PatientsList/PatientList';
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from "react-redux";
-import { deletePatientsMany, postPatient,clearCheckedList, fetchPatients, searchPatient,setSearchIdle } from "../../components/PatientsList/PatientsListSlice";
+import { useSelector } from "react-redux";
+import { deletePatientsMany, postPatient, clearCheckedList, fetchPatients, searchPatient, setSearchIdle } from "../../components/PatientsList/PatientsListSlice";
 import { patientSchema } from "../../schemas/patientSchema";
 import { useNavigate } from 'react-router-dom';
 

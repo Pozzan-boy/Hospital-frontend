@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from "axios";
-
 const baseUrl = "http://localhost:3001/ward/getAllWards";
 const addUrl = '/ward/add';
 const updateUrl = 'http://localhost:3001/ward/edit'
@@ -38,36 +37,25 @@ const initialState = {
             value: 'placeCount',
             text: "Place count"
         },
-    
-       
     ],
-
-
 }
-
 export const fetchWards = ([token, count, start]) => async (dispatch) => {
     try {
-
         const response = await axios.get(baseUrl, {
             headers: {
                 'authorization': token,
                 'count': count,
                 'from': start
-
             }
         });
-
         dispatch(fetchWardsSuccess(response.data));
-
     } catch (error) {
-
         dispatch(fetchWardsFailure(error.message));
     }
 };
 export const searchWard = ([token, search]) => async (dispatch) => {
     console.log({token,search})
     try {
-
         const response = await axios.get(`/ward/find`,{
             params:{
                 ...search
@@ -75,39 +63,30 @@ export const searchWard = ([token, search]) => async (dispatch) => {
             headers: {
                 'authorization': token
             },
-
-            
         });
         dispatch(searchWardsSuccess(response.data));
         console.log(response.data)
     } catch (error) {
-
         dispatch(searchWardsFailure(error.message));
     }
 };
 export const deleteWardItem = ([id, token]) => async (dispatch) => {
     try {
-
         const response = await axios.delete(`/ward/delete/${id}`,
             {
                 headers: {
                     'authorization': token
                 }
             });
-
         dispatch(deleteWardItemSuccess(response.data._id));
         dispatch(getWardsCount(token));
     } catch (error) {
-
         dispatch(deleteWardItemFailure(error.message));
     }
 };
-
 export const deleteWardsMany = ({ checkedList, token }) => async (dispatch) => {
     console.log(token);
-
     try {
-
         const response = await axios.delete(`/ward/deleteMany/`,
             {
                 headers: {
@@ -118,10 +97,7 @@ export const deleteWardsMany = ({ checkedList, token }) => async (dispatch) => {
                 }
             }
         );
-
-        // Dispatch success action with deleted item ID
         dispatch(deleteWardsManySuccess(checkedList));
-
         console.log(response.data);
         dispatch(getWardsCount(token));
     } catch (error) {
@@ -129,26 +105,19 @@ export const deleteWardsMany = ({ checkedList, token }) => async (dispatch) => {
         dispatch(deleteWardsManyFailure(error.message));
     }
 };
-
 export const getWardsCount = (token) => async (dispatch) => {
     try {
-
         const response = await axios.get(baseUrl, {
             headers: {
                 'authorization': token
             }
         });
-
         dispatch(getWardsCountSuccess(response.data.length));
-
     } catch (error) {
-
         dispatch(fetchWardsFailure(error.message));
     }
 };
-
 export const postWard = ({ id, token, number, floor, department, purpose, placeCount, chief=undefined }) => async (dispatch) => {
-
     try {
         const post = await axios.post(addUrl, {
             number,
@@ -162,42 +131,32 @@ export const postWard = ({ id, token, number, floor, department, purpose, placeC
                 Authorization: token
             }
         });
-
         dispatch(wardCreatedSuccess(post.data));
         dispatch(getWardsCount(token));
     } catch (error) {
-
         dispatch(wardCreatedFailure(error.message));
     }
 };
-
 export const updateWard = ([item, token, id]) => async (dispatch) => {
     try {
-        // Make API call to delete item
         const response = await axios.put(`${updateUrl}/${id}`, item,
             {
                 headers: {
                     Authorization: token
                 }
             });
-
-        
         dispatch(updateWardSuccess(response.data));
     } catch (error) {
         dispatch(updateWardFailure(error.message));
     }
 };
-
 const wardsSlice = createSlice({
     name: 'wards',
     initialState,
     reducers: {
         fetchWardsSuccess: (state, action) => {
-            // Update the state to remove the deleted item
             state.wardsLoadingStatus = 'idle';
-
             state.wards = action.payload.map(item => ({ ...item, isSelected: false }))
-
         },
         fetchWardsFailure: (state, action) => {
             state.wardsLoadingStatus = 'error';
@@ -207,14 +166,12 @@ const wardsSlice = createSlice({
                 state.error = action.payload.message;
             }
         },
-        
         searchWardsSuccess(state, action) {
             state.searchStatus = "searched";
             state.searchedWards = action.payload;
         },
         setSearchIdle(state, action) {
             state.searchStatus = "idle";
-            
         },
         searchWardsFailure(state, action) {
             state.error = action.payload;
@@ -224,22 +181,15 @@ const wardsSlice = createSlice({
             const deletedItemId = action.payload;
             state.status = 'deleted';
             state.wards = state.wards.filter(item => item._id !== deletedItemId);
-
         },
-
         deleteWardItemFailure: (state, action) => {
-            // Handle failure, e.g. show error message or set error state
             state.error = action.payload;
         },
         deleteWardsManySuccess: (state, action) => {
-
             state.status = 'deletedMany';
             state.wards = state.wards.filter(item => !action.payload.includes(item._id));
-
-
         },
         deleteWardsManyFailure: (state, action) => {
-            // Handle failure, e.g. show error message or set error state
             state.error = action.payload;
         },
         setCurrentPage(state, action) {
@@ -248,9 +198,7 @@ const wardsSlice = createSlice({
         handleSearchWards(state, action) {
             state.searchedWards = action.payload;
         },
-
         wardCreatedSuccess: (state, action) => {
-
             state.status = 'added';
             state.ward = action.payload;
         },
@@ -258,7 +206,6 @@ const wardsSlice = createSlice({
             state.status = 'failed';
             state.error = action.error.message;
         },
-
         updateWardSuccess: (state, action) => {
             state.status = 'updated';
             const updatedItem = action.payload;
@@ -268,17 +215,14 @@ const wardsSlice = createSlice({
                 state.wards.splice(index, 1, updatedItem);
             }
         },
-
         updateWardFailure: (state, action) => {
             state.status = 'failed';
             state.error = action.error.message;
-
         },
         getWardsCountSuccess: (state, action) => {
             state.wardsCount = action.payload;
         },
         getWardsCountFailure: (state, action) => {
-
             state.error = action.payload;
         },
         setStatusIdle: (state, action) => {
@@ -288,26 +232,19 @@ const wardsSlice = createSlice({
             if (!state.checkedList.includes(action.payload)) {
                 state.checkedList.push(action.payload);
             }
-
         },
         removeCheckedListItem: (state, action) => {
-
             state.checkedList = state.checkedList.filter(item => item !== action.payload);
-
         },
         clearCheckedList: (state) => {
-
             state.checkedList = [];
-
         }
-
     },
     extraReducers: (builder) => {
         builder
             .addDefaultCase(() => { })
     }
 })
-
 const { actions, reducer } = wardsSlice;
 export default reducer;
 export const {

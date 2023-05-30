@@ -49,7 +49,6 @@ const initialState = {
             value: 'phone',
             text: "Phone"
         },
-       
     ],
     specialitiesList: [
         {
@@ -88,31 +87,21 @@ const initialState = {
             value: 'ophthalmologist',
             text: "Ophthalmologist"
         }]
-
 }
-
-
 export const fetchDoctors = ([token, count, start]) => async (dispatch) => {
     try {
-
         const response = await axios.get(baseUrl, {
             headers: {
                 'authorization': token,
                 'count': count,
                 'from': start
-
             }
         });
-
-
         dispatch(fetchDoctorsSuccess(response.data));
-
     } catch (error) {
-
         dispatch(fetchDoctorsFailure(error.message));
     }
 };
-
 export const getDoctor = ({id, token}) => async (dispatch) => {
     try {
         const res = await axios.get(`/doctor/${id}`, {
@@ -125,30 +114,23 @@ export const getDoctor = ({id, token}) => async (dispatch) => {
         dispatch(deleteDoctorItemFailure(err.message));
     }
 }
-
 export const deleteDoctorItem = ([id, token]) => async (dispatch) => {
     try {
-
         const response = await axios.delete(`/doctor/delete/${id}`,
             {
                 headers: {
                     'authorization': token
                 }
             });
-
         dispatch(deleteDoctorItemSuccess(response.data._id));
         dispatch(getDoctorsCount(token));
     } catch (error) {
-
         dispatch(deleteDoctorItemFailure(error.message));
     }
 };
-
-
 export const searchDoctorItem = ([token, search]) => async (dispatch) => {
     console.log({token,search})
     try {
-
         const response = await axios.get(`/doctor/find`,{
             params:{
                 ...search
@@ -156,21 +138,16 @@ export const searchDoctorItem = ([token, search]) => async (dispatch) => {
             headers: {
                 'authorization': token
             },
-
-            
         });
         dispatch(searchDoctorsSuccess(response.data));
         console.log(response.data)
     } catch (error) {
-
         dispatch(searchDoctorsFailure(error.message));
     }
 };
 export const deleteDoctorsMany = ({ checkedList, token }) => async (dispatch) => {
     console.log(token);
-
     try {
-
         const response = await axios.delete(`/doctor/deleteMany/`,
             {
                 headers: {
@@ -181,10 +158,7 @@ export const deleteDoctorsMany = ({ checkedList, token }) => async (dispatch) =>
                 }
             }
         );
-
-        // Dispatch success action with deleted item ID
         dispatch(deleteDoctorsManySuccess(checkedList));
-
         console.log(response.data);
         dispatch(getDoctorsCount(token));
     } catch (error) {
@@ -192,33 +166,20 @@ export const deleteDoctorsMany = ({ checkedList, token }) => async (dispatch) =>
         dispatch(deleteDoctorsManyFailure(error.message));
     }
 };
-
-
 export const getDoctorsCount = (token) => async (dispatch) => {
     try {
-
         const response = await axios.get(baseUrl, {
             headers: {
                 'authorization': token
             }
         });
-
-
-
-
         dispatch(getDoctorsCountSuccess(response.data.length));
-
     } catch (error) {
-
         dispatch(fetchDoctorsFailure(error.message));
     }
 };
-
-
 export const postDoctor = ({ id, token, name, surname, age, speciality, entryDate, salary, email, phone }) => async (dispatch) => {
-
     try {
-        // Make API call to delete item
         const post = await axios.post(addUrl, {
             name,
             surname,
@@ -233,36 +194,27 @@ export const postDoctor = ({ id, token, name, surname, age, speciality, entryDat
                 Authorization: token
             }
         });
-
-
         dispatch(doctorCreatedSuccess(post.data));
         dispatch(getDoctorsCount(token));
     } catch (error) {
-
         dispatch(doctorCreatedFailure(error.message));
     }
 };
-
 export const updateDoctor = ([item, token, id]) => async (dispatch) => {
     try {
-        // Make API call to delete item
         const response = await axios.put(`${updateUrl}/${id}`, item,
             {
                 headers: {
                     Authorization: token
                 }
             });
-
-        // let doctors = useSelector(state => state.doctors.doctors);
         dispatch(updateDoctorSuccess(response.data));
     } catch (error) {
         dispatch(updateDoctorFailure(error.message));
     }
 };
-
 export const registerDoctor = ([item, token]) => async (dispatch) => {
     try {
-        // Make API call to delete item
         const response = await axios.post(`/auth/register/doctor`,
             item,
             {
@@ -276,17 +228,13 @@ export const registerDoctor = ([item, token]) => async (dispatch) => {
         dispatch(registerDoctorFailure(error.message));
     }
 };
-
 const doctorsSlice = createSlice({
     name: 'doctors',
     initialState,
     reducers: {
         fetchDoctorsSuccess: (state, action) => {
-            // Update the state to remove the deleted item
             state.doctorsLoadingStatus = 'idle';
-
             state.doctors = action.payload.map(item => ({ ...item, isSelected: false }))
-
         },
         fetchDoctorsFailure: (state, action) => {
             state.doctorsLoadingStatus = 'error';
@@ -296,28 +244,19 @@ const doctorsSlice = createSlice({
                 state.error = action.payload.message;
             }
         },
-
         deleteDoctorItemSuccess: (state, action) => {
-            // Update the state to remove the deleted item
             const deletedItemId = action.payload;
             state.status = 'deleted';
             state.doctors = state.doctors.filter(item => item._id !== deletedItemId);
-
         },
-
         deleteDoctorItemFailure: (state, action) => {
-            // Handle failure, e.g. show error message or set error state
             state.error = action.payload;
         },
         deleteDoctorsManySuccess: (state, action) => {
-
             state.status = 'deletedMany';
             state.doctors = state.doctors.filter(item => !action.payload.includes(item._id));
-
-
         },
         deleteDoctorsManyFailure: (state, action) => {
-            // Handle failure, e.g. show error message or set error state
             state.error = action.payload;
         },
         setCurrentPage(state, action) {
@@ -329,15 +268,12 @@ const doctorsSlice = createSlice({
         },
         setSearchIdle(state, action) {
             state.searchStatus = "idle";
-            
         },
         searchDoctorsFailure(state, action) {
             state.error = action.payload;
             state.status = 'failed';
         },
-
         doctorCreatedSuccess: (state, action) => {
-
             state.status = 'added'
             state.doctor = action.payload;
         },
@@ -345,21 +281,17 @@ const doctorsSlice = createSlice({
             state.status = 'failed';
             state.error = action.error.message;
         },
-
         updateDoctorSuccess: (state, action) => {
             state.status = 'updated';
             const updatedItem = action.payload;
-
             const index = state.doctors.findIndex((item) => item._id === updatedItem._id);
             if (index !== -1) {
                 state.doctors.splice(index, 1, updatedItem);
             }
         },
-
         updateDoctorFailure: (state, action) => {
             state.status = 'failed';
             state.error = action.error.message;
-
         },
         registerDoctorSuccess: (state, action) => {
             state.status = 'registered';
@@ -373,7 +305,6 @@ const doctorsSlice = createSlice({
             state.doctorsCount = action.payload;
         },
         getDoctorsCountFailure: (state, action) => {
-
             state.error = action.payload;
         },
         setStatusIdle: (state, action) => {
@@ -383,26 +314,19 @@ const doctorsSlice = createSlice({
             if (!state.checkedList.includes(action.payload)) {
                 state.checkedList.push(action.payload);
             }
-
         },
         removeCheckedListItem: (state, action) => {
-
             state.checkedList = state.checkedList.filter(item => item !== action.payload);
-
         },
         clearCheckedList: (state) => {
-
             state.checkedList = [];
-
         }
-
     },
     extraReducers: (builder) => {
         builder
             .addDefaultCase(() => { })
     }
 })
-
 const { actions, reducer } = doctorsSlice;
 export default reducer;
 export const {
@@ -432,5 +356,3 @@ export const {
     deleteDoctorsManyFailure,
     clearCheckedList
 } = actions
-
-

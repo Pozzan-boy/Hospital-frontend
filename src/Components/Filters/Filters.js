@@ -1,7 +1,7 @@
 import Search from "../Search/Search";
 import Button from "../Button/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import deleteIcon from "../../assets/icons/delete.svg";
 import ModalAddDoctor from "../ModalAddWindow/ModalAddDoctor";
 import ModalAddWard from "../ModalAddWindow/ModalAddWard";
@@ -9,7 +9,6 @@ import clearIcon from "../../assets/icons/clear-all.svg";
 import "./filters.scss";
 import ModalAddPatient from "../ModalAddWindow/ModalAddPatient";
 import ModalAddHealing from "../ModalAddWindow/ModalAddHealing";
-import axios from "axios";
 
 
 
@@ -18,16 +17,12 @@ const Filters = (props) => {
     const { listCount,
         currentDoctor,
         checkedList,
-        inputs,
         deleteItemsMany,
         clearCheckBoxes,
-        postItemFunc,
-        itemSchema,
         tableName } = props
        
     const token = useSelector((state) => state.account.token);
     const [modalActive, setModalActive] = useState(false);
-    const [modalActive2, setModalActive2] = useState(false);
     const isManyBtnDisabled = useMemo(() => checkedList.length === 0, [checkedList]);
     
     const dispatch = useDispatch();

@@ -5,7 +5,6 @@ import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import CustomInput from "./CustomInput";
 import CustomSelect from "./CustomSelect";
-import CustomRadioButton from "./CustomRadioButton";
 import closeIcon from "../../assets/icons/close.svg";
 import { wardSchema } from "../../schemas/wardSchema";
 import { postHealing } from "../HealingsList/HealingsListSlice";

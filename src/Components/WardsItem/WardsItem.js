@@ -4,20 +4,18 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateWard, deleteWardItem, removeCheckedListItem } from "../WardsList/WardsListSlice";
 import { wardSchema } from "../../schemas/wardSchema";
-import { Form, Formik, useFormik } from "formik";
+import { Form, Formik } from "formik";
 import { addCheckedListItem } from '../WardsList/WardsListSlice';
 import deleteIcon from "../../assets/icons/delete.svg";
 import editIcon from "../../assets/icons/edit.svg";
-import keyIcon from "../../assets/icons/key.svg";
 import Button from "../Button/Button";
 import Checkbox from "../Checkbox/Checkbox";
 import more from "../../assets/icons/more.svg";
 import Modal from "../Modal/Modal";
 import closeIcon from "../../assets/icons/close.svg";
-import "../ListItem/listItem.scss"
+import "../ListItem/listItem.scss";
 import CustomInput from "../ModalAddWindow/CustomInput";
 import CustomSelect from "../ModalAddWindow/CustomSelect";
-import axios from "axios";
 
 const WardsItem = (props) => {
 

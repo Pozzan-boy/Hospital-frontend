@@ -1,13 +1,11 @@
-import AdminHeader from '../../components/AdminHeader/AdminHeader'
-import Filters from '../../components/Filters/Filters'
-import HealingsList from '../../components/HealingsList/HealingsList'
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from "react-redux";
-import { deleteHealingsMany, postHealing,clearCheckedList, setSearchIdle, fetchHealings, searchHealing } from "../../components/HealingsList/HealingsListSlice";
+import AdminHeader from '../../components/AdminHeader/AdminHeader';
+import Filters from '../../components/Filters/Filters';
+import HealingsList from '../../components/HealingsList/HealingsList';
+import { useEffect } from 'react';
+import { useSelector } from "react-redux";
+import { deleteHealingsMany, postHealing, clearCheckedList, setSearchIdle, fetchHealings, searchHealing } from "../../components/HealingsList/HealingsListSlice";
 import { healingSchema } from "../../schemas/healingSchema";
-import AdminPanel from '../../components/AdminPanel/AdminPanel';
 import { useNavigate } from 'react-router-dom';
-import { searchWard } from '../../components/WardsList/WardsListSlice';
 
 
 const AdminHealingsRoute = () => {

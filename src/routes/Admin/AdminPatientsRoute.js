@@ -1,9 +1,9 @@
-import React from 'react'
-import AdminHeader from '../../components/AdminHeader/AdminHeader'
-import Filters from '../../components/Filters/Filters'
+import React from 'react';
+import AdminHeader from '../../components/AdminHeader/AdminHeader';
+import Filters from '../../components/Filters/Filters';
 import PatientsList from '../../components/PatientsList/PatientList';
-import { useSelector, useDispatch } from "react-redux";
-import { deletePatientsMany, postPatient,clearCheckedList, fetchPatients, searchPatient,setSearchIdle } from "../../components/PatientsList/PatientsListSlice";
+import { useSelector } from "react-redux";
+import { deletePatientsMany, postPatient, clearCheckedList, fetchPatients, searchPatient, setSearchIdle } from "../../components/PatientsList/PatientsListSlice";
 import { patientSchema } from "../../schemas/patientSchema";
 
 

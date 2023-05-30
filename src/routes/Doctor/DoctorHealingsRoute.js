@@ -1,9 +1,9 @@
 import DoctorHeader from '../../components/DoctorHeader/DoctorHeader';
-import Filters from '../../components/Filters/Filters'
-import HealingsList from '../../components/HealingsList/HealingsList'
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from "react-redux";
-import { deleteHealingsMany, postHealing,clearCheckedList, setSearchIdle, fetchHealings, searchHealing } from "../../components/HealingsList/HealingsListSlice";
+import Filters from '../../components/Filters/Filters';
+import HealingsList from '../../components/HealingsList/HealingsList';
+import { useEffect } from 'react';
+import { useSelector } from "react-redux";
+import { deleteHealingsMany, postHealing, clearCheckedList, setSearchIdle, fetchHealings, searchHealing } from "../../components/HealingsList/HealingsListSlice";
 import { healingSchema } from "../../schemas/healingSchema";
 import { useNavigate } from 'react-router-dom';
 

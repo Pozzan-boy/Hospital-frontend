@@ -1,4 +1,3 @@
-import { useField } from "formik";
 const CustomSearchSelect = ({ label, ...props }) => {
     return (
         <div className="search__select">

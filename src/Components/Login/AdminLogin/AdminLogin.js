@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 
 import { accountFetching, accountFetched, accountFetchingError } from "../loginSlice";
@@ -10,12 +10,12 @@ import Modal from "../../Modal/Modal";
 import user from '../../../assets/icons/user.svg';
 import lock from '../../../assets/icons/lock.svg';
 import successIcon from "../../../assets/icons/success.svg";
-import errorIcon from "../../../assets/icons/alert-error.svg"
+import errorIcon from "../../../assets/icons/alert-error.svg";
 import { useNavigate } from "react-router";
 
 const AdminLogin = () => {
 
-    const account = useSelector(state => state.account);
+   
     const [modalMessageActive, setModalMessageActive] = useState(false);
     const [statusIcon, setStatusIcon] = useState(0);
     const [statusMessage, setStatusMessage] = useState('');

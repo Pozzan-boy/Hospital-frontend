@@ -1,11 +1,10 @@
-import AdminHeader from '../../components/AdminHeader/AdminHeader'
-import Filters from '../../components/Filters/Filters'
-import DoctorsList from '../../components/DoctorsList/DoctorsList'
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from "react-redux";
-import { deleteDoctorsMany, postDoctor,clearCheckedList, fetchDoctors, setSearchIdle, searchDoctorItem } from "../../components/DoctorsList/DoctorsListSlice";
+import AdminHeader from '../../components/AdminHeader/AdminHeader';
+import Filters from '../../components/Filters/Filters';
+import DoctorsList from '../../components/DoctorsList/DoctorsList';
+import { useEffect } from 'react';
+import { useSelector } from "react-redux";
+import { deleteDoctorsMany, postDoctor, clearCheckedList, fetchDoctors, setSearchIdle, searchDoctorItem } from "../../components/DoctorsList/DoctorsListSlice";
 import { doctorSchema } from "../../schemas/doctorSchema";
-import AdminPanel from '../../components/AdminPanel/AdminPanel';
 import { useNavigate } from 'react-router-dom';
 const AdminDoctorsRoute = () => {
     const { doctorsCount, checkedList } = useSelector((state) => state.doctors);

@@ -6,12 +6,12 @@ import Button from "../../Button/Button";
 import Modal from "../../Modal/Modal";
 import user from '../../../assets/icons/user.svg';
 import successIcon from "../../../assets/icons/success.svg";
-import errorIcon from "../../../assets/icons/alert-error.svg"
+import errorIcon from "../../../assets/icons/alert-error.svg";
 import lock from '../../../assets/icons/lock.svg';
 import { Link, useNavigate } from "react-router-dom";
 import { accountFetched, accountFetching, accountFetchingError } from "../loginSlice";
 import axios from "axios";
-import { getDoctor, updateDoctorSuccess } from "../../DoctorsList/DoctorsListSlice";
+import { getDoctor } from "../../DoctorsList/DoctorsListSlice";
 
 const DoctorLogin = () => {
 
